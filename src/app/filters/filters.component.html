@@ -1,0 +1,219 @@
+<div class="custom-bg scroll-container" #scrollDiv>
+  <app-header></app-header>
+
+  <div class="custom-bg rela">
+    <div class="container containerdiv">
+      <div class="title">
+        <h1 class="explore Outfit">{{ headingText }}</h1>
+        <p class="parag Outfit">Modern, Classic, and Timeless Pieces to Suit Every Space</p>
+      </div>
+      <button class="filter-btn Outfit" (click)="toggleFilterDropdown()"><svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px"  fill="#5E5E5E"><path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" class="filtersvg"/></svg><span class="svgfiltermarg">Filters</span></button>
+      <div class="content">
+        <div class="filter" *ngIf="isFilterVisible">
+            <div class="logofilter">
+              <p class="logofilterleft Outfit">Filters</p>
+              <p class="logofilterright Roboto" (click)="clearAll()">Clear all</p>
+            </div>
+            <div class="show Outfit">Showing  <span class="numberofproduct">{{productshowing}}</span> of <span class="numberofproduct">{{numberofproduct}}</span></div>
+            <div class="productname">
+              <div class="categoryg1 Outfit" (click)="selectProduct('All')">All</div>
+              <div class="categoryg2 Outfit" (click)="selectProduct('Chair')">Chair</div>
+              <div class="categoryg3 Outfit" (click)="selectProduct('Sofa')">Sofa</div>
+              <div class="categoryg4 Outfit" (click)="selectProduct('Tables and Desks')">Tables and Desks</div>
+              <div class="categoryg5 Outfit" (click)="selectProduct('Kitchen')">Kitchen</div>
+            </div>
+            <div class="line"></div>
+            <div class="price">
+              <div class="toggle1">
+                <div class="nav-link1 Outfit" (click)="toggleArrow()">Price</div>
+                <div class="svg" (click)="toggleArrow()">
+                  <svg id="arrowIcon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5E5E5E">
+                      <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/>
+                  </svg>
+                </div>
+              </div>
+                <div *ngIf="showFormCheck" class="check1">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type1" id="Under500" [(ngModel)]="Price" (click)="selectProduct2('Under 500 EGP')" value="Chair" checked required>
+                    <label class="form-check-label Outfit" for="Under500">Under 500 EGP</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type2" id="1000EGP" [(ngModel)]="Price" (click)="selectProduct2('500 EGP to 1000 EGP')" value="Sofa">
+                    <label class="form-check-label Outfit" for="1000EGP">500 EGP to 1000 EGP</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type3" id="3000EGP" [(ngModel)]="Price" (click)="selectProduct2('1000 EGP to 3000 EGP')" value="Tables">
+                    <label class="form-check-label Outfit" for="3000EGP">1000 EGP to 3000 EGP</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type4" id="6000EGP" [(ngModel)]="Price" (click)="selectProduct2('3000 EGP to 6000 EGP')" value="Kitchen">
+                    <label class="form-check-label Outfit" for="6000EGP">3000 EGP to 6000 EGP</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="type5" id="Over6000" [(ngModel)]="Price" (click)="selectProduct2('Over 6000 EGP')" value="Over 6000 EGP">
+                    <label class="form-check-label Outfit" for="Over6000">Over 6000 EGP</label>
+                  </div>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="size">
+              <div class="toggle1">
+                <div class="nav-link1 Outfit" (click)="toggleArrow2()">Size</div>
+                <div class="svg" (click)="toggleArrow2()">
+                  <svg id="arrowIcon2" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5E5E5E">
+                      <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/>
+                  </svg>
+                </div>
+              </div>
+                <div *ngIf="showFormCheck2" class="check1">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Small" id="Small" [(ngModel)]="size" (click)="selectProduct3('Small Size')" value="Small" checked required>
+                    <label class="form-check-label2 Outfit" for="Small">Small Size</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Standard" id="Standard" [(ngModel)]="size" (click)="selectProduct3('Standard Size')" value="Standard">
+                    <label class="form-check-label2 Outfit" for="Standard">Standard Size</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Large" id="Large" [(ngModel)]="size" (click)="selectProduct3('Large Size')" value="Large">
+                    <label class="form-check-label2 Outfit" for="Large">Large Size</label>
+                  </div>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="rating">
+              <div class="toggle1">
+                <div class="nav-link1 Outfit" (click)="toggleArrow3()">Average Rating</div>
+                <div class="svg" (click)="toggleArrow3()">
+                  <svg id="arrowIcon3" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5E5E5E">
+                      <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/>
+                  </svg>
+                </div>
+              </div>
+              <div *ngIf="showFormCheck3" class="check1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rating" id="rating5" [(ngModel)]="rating" (click)="selectProduct4(5)" value="5" title="5" required>
+                  <label class="form-check-label3 Outfit" for="rating5">
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                  </label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rating" id="rating4" [(ngModel)]="rating" (click)="selectProduct4(4)" value="4" title="4" required>
+                  <label class="form-check-label3 Outfit" for="rating4">
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                  </label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rating" id="rating3" [(ngModel)]="rating" (click)="selectProduct4(3)" value="3" title="3" required>
+                  <label class="form-check-label3 Outfit" for="rating3">
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                  </label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rating" id="rating2" [(ngModel)]="rating" (click)="selectProduct4(2)" value="2" title="2" required>
+                  <label class="form-check-label3 Outfit" for="rating2">
+                    <i class="fa-solid fa-star star"></i>
+                    <i class="fa-solid fa-star star"></i>
+                  </label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rating" id="rating1" [(ngModel)]="rating" (click)="selectProduct4(1)" value="1" title="1" required>
+                  <label class="form-check-label3 Outfit" for="rating1">
+                    <i class="fa-solid fa-star star"></i>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="line"></div>
+          </div>
+
+        <div class="weightcards">
+          <div class="sortag">
+              <div class="tag" (click)="toggleTag()">
+                <span class="spantag Roboto">Tag</span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5E5E5E"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+              </div>
+              <div class="selectproductstype">
+                <div [ngClass]="{'Outfit selectprod d-block': selectedProduct !== ''}">
+                  {{ selectedProduct }}
+                </div>
+                <div [ngClass]="{'Outfit selectprod d-block': selectedProduct2 !== ''}">
+                  {{ selectedProduct2 }}
+                </div>
+                <div [ngClass]="{'Outfit selectprod d-block': selectedProduct3 !== ''}">
+                  {{ selectedProduct3 }}
+                </div>
+                <div [ngClass]="{'Outfit selectprodstar d-block': selectedProduct4 !== ''}" >
+                  {{ selectedProduct4 }}
+                </div>
+              </div>
+
+              <div class="sort Roboto">
+                <select title="sortby" class="sort-dropdown Roboto" id="sortOptions" (mouseover)="onMouseOver($event)" (mouseout)="onMouseOut($event)" [(ngModel)]="selectedOption" (change)="filterProducts()">
+                  <option  value=""disabled selected>Sort by</option>
+                  <option  class="pricesort" value="price">Price</option>
+                  <option  value="size">Size</option>
+                  <option  value="rating">Rating</option>
+                </select>
+              </div>
+          </div>
+          <div class="container containerproduct">
+            <div class="row">
+
+              <div *ngIf="noProductsFound" class="col-12">
+                <p class="no-products-message Outfit">No Product Available</p>
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let product of pagedProducts">
+                <div class="card mb-3 cardproduct">
+                  <img [src]="'assets/' + product.image" alt="not loaded" class="card-img-top">
+
+                  <div class="card-body">
+                    <p class="typeproduct Outfit">{{product.type}}</p>
+                    <h4 class="nameproduct Outfit">{{product.name}}</h4>
+                    <p class="priceproduct Outfit">{{product.price}} EGP</p>
+                    <p class="sizeproduct Outfit">{{product.size}}</p>
+                    <div class="ratingproduct" [innerHTML]="generateStarIconsproduct(product.rating, 5)"></div>
+                    <div class="pay Outfit" (click)="movepaymethod(product)">Pay Now <span class="greatpay Outfit"> > </span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav aria-label="Page navigation">
+            <ul class="pagination pagenav">
+              <li class="page-item">
+                <div class="page-link scalepagi" aria-label="Previous" (click)="goToPreviousPage()">
+                  <span aria-hidden="true">&laquo;</span>
+                </div>
+              </li>
+              <li class="page-item" *ngFor="let page of getTotalPages()">
+                <div class="page-link" (click)="changePage(page)">{{ page }}</div>
+              </li>
+              <li class="page-item">
+                <div class="page-link scalepagi" aria-label="Next" (click)="goToNextPage()">
+                  <span aria-hidden="true">&raquo;</span>
+                </div>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>
+

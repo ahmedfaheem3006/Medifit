@@ -1,0 +1,42 @@
+<!-- verification-code.component.html -->
+<div class="custom-bg">
+  <div class="d-flex align-items-center">
+    <div class="container">
+
+      <div id="toast-warning" class="toast align-items-center border-0 position-fixed top-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex bg-toast">
+          <div class="toast-body Outfit">
+            <i class="fa-solid fa-exclamation me-2 btn-fa"></i>
+            {{ toastMessage }}
+          </div>
+          <button type="button" id="btnclose" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div class="d-flex divlogo justify-content-end">
+        <div class="logo"><span class="logoico"></span>Medifit</div>
+      </div>
+      <div class="row justify-content-center mdiv">
+        <div class="col-12">
+          <h2 class="text-center forgotaccount outfit">Please Check Your Email</h2>
+          <p class="text-center textforgot outfit">We've sent a password reset link to your email address. If you don't see it, check your spam folder or try again.</p>
+        </div>
+        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+          <form (ngSubmit)="onSubmit4()">
+            <div class="code-inputs d-flex justify-content-between">
+              <input name="0" type="text" maxlength="1" class="code-input" placeholder="-" autocomplete="off" [(ngModel)]="verificationCode[0]" (input)="moveFocus($event, 0)">
+              <input name="1" type="text" maxlength="1" class="code-input" placeholder="-" autocomplete="off" [(ngModel)]="verificationCode[1]" (input)="moveFocus($event, 1)">
+              <input name="2" type="text" maxlength="1" class="code-input" placeholder="-" autocomplete="off" [(ngModel)]="verificationCode[2]" (input)="moveFocus($event, 2)">
+              <input name="3" type="text" maxlength="1" class="code-input" placeholder="-" autocomplete="off" [(ngModel)]="verificationCode[3]" (input)="moveFocus($event, 3)">
+              <input name="4" type="text" maxlength="1" class="code-input" placeholder="-" autocomplete="off" [(ngModel)]="verificationCode[4]" (input)="moveFocus($event, 4)">
+              <input name="5" type="text" maxlength="1" class="code-input" placeholder="-" autocomplete="off" [(ngModel)]="verificationCode[5]" (input)="moveFocus($event, 5)">
+            </div>
+            <button type="submit" class="signupBtn Outfit w-100">Verify Code</button>
+            <div class="resend Outfit">Don't have a code? <span class="Outfit" (click)="resendCode()"> Resend code</span></div>
+            <div class="Return Outfit" (click)="onclick()"><span class="greater"> &lt; </span>Return to Forgot Password</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

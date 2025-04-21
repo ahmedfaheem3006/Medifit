@@ -1,0 +1,421 @@
+/* sec1-home2.component.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.wellness-section {
+  width: 100%;
+  overflow: hidden;
+  background-color: rgba(232, 230, 222, 1);
+  position: relative;
+}
+
+.wellness-container {
+  display: flex;
+  min-height: 610px;
+  margin: 0 auto;
+}
+
+.wellness-content {
+  flex: 1;
+  padding: clamp(30px, 5vw, 45px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.wellness-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.2;
+  color: #503217;
+  font-weight: 500;
+  margin-bottom: clamp(20px, 4vw, 40px);
+  max-width: 600px;
+  transition: transform 0.5s ease;
+}
+
+/* .highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(80, 50, 23, 0.2);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease 0.2s;
+} */
+
+.wellness-section:hover .highlight::after {
+  transform: scaleX(1);
+}
+
+.wellness-info-container {
+  position: relative;
+  margin-top: 20px;
+  transition: transform 0.5s ease;
+}
+
+.wellness-card {
+  display: flex;
+  background-color: rgba(232, 230, 222, 1);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 800px;
+}
+
+.card-image {
+  width: 45%;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.wellness-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-text {
+  width: 55%;
+  padding: clamp(15px, 3vw, 30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: rgba(80, 50, 23, 0.9);
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 1.6;
+  margin-bottom: clamp(15px, 3vw, 25px);
+}
+
+.shop-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #503217;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: clamp(14px, 1vw, 16px);
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  box-shadow: 0 4px 15px rgba(80, 50, 23, 0.2);
+}
+
+.shop-button:hover {
+  background-color: #3d2712;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(80, 50, 23, 0.3);
+}
+
+.shop-button:active {
+  transform: translateY(-1px);
+}
+
+.shop-button img {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.shop-button:hover img {
+  transform: translateX(3px);
+}
+
+.wellness-image {
+  width: 786px;
+  height: 685px;
+  margin-right: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.wellness-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(232, 230, 222, 0.8) 0%, transparent 20%);
+  pointer-events: none;
+}
+
+.wellness-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease;
+}
+
+.wellness-section:hover .wellness-image img {
+  transform: scale(1.03);
+}
+
+/* Animation for page load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wellness-title {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.wellness-info-container {
+  animation: fadeInUp 0.8s ease 0.2s forwards;
+  opacity: 0;
+}
+
+.wellness-image {
+  animation: fadeInUp 0.8s ease 0.4s forwards;
+  opacity: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 1400px) {
+  .wellness-image {
+    width: 50%;
+  }
+
+  .wellness-content {
+    padding: 60px 40px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .wellness-image {
+    width: 45%;
+  }
+
+  .wellness-title {
+    font-size: 46px;
+  }
+
+  .card-text p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  .wellness-container {
+    flex-direction: column-reverse;
+  }
+
+  .wellness-content {
+    width: 100%;
+    padding: 50px 40px;
+  }
+
+  .wellness-title {
+    max-width: 100%;
+    text-align: center;
+    margin: 0 auto 40px;
+  }
+
+  .wellness-info-container {
+    margin: 0 auto;
+    max-width: 700px;
+  }
+
+  .wellness-image {
+    width: 100%;
+    height: 500px;
+  }
+
+  .wellness-image::after {
+    background: linear-gradient(to bottom, rgba(232, 230, 222, 0.8) 0%, transparent 20%);
+  }
+}
+
+@media (max-width: 768px) {
+  .wellness-content {
+    padding: 40px 30px;
+  }
+
+  .wellness-title {
+    font-size: 38px;
+  }
+
+  .wellness-card {
+    flex-direction: column;
+  }
+
+  .card-image, .card-text {
+    width: 100%;
+  }
+
+  .card-image {
+    height: 250px;
+  }
+
+  .wellness-image {
+    height: 400px;
+  }
+
+  .shop-button {
+    align-self: center;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .wellness-title {
+    font-size: 32px;
+  }
+
+  .card-text {
+    padding: 20px;
+  }
+
+  .wellness-image {
+    height: 300px;
+  }
+
+  .card-image {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wellness-content {
+    padding: 30px 20px;
+  }
+
+  .wellness-title {
+    font-size: 28px;
+  }
+
+  .card-text p {
+    font-size: 14px;
+  }
+
+  .wellness-image {
+    height: 250px;
+  }
+}
+
+
+/* logo-bar.component.css */
+.logo-bar {
+  width: 100%;
+  background-color: rgba(226, 223, 207, 1);
+  padding: 20px 0;
+  border-top: 1px solid rgba(80, 50, 23, 0.1);
+  border-bottom: 1px solid rgba(80, 50, 23, 0.1);
+}
+
+.container {
+  /* max-width: 1200px; */
+  /* margin: 0 auto; */
+  padding: 0px 0px;
+}
+
+.logo-slider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  transition: transform 0.3s ease;
+}
+
+.logo-item:hover {
+  transform: translateY(-3px);
+}
+
+.logo-image {
+  height: 30px;
+  width: auto;
+  margin-right: 10px;
+  opacity: 0.9;
+}
+
+.logo-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(80, 50, 23, 1);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .logo-slider {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .logo-item {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-slider {
+    gap: 15px;
+  }
+
+  .logo-name {
+    font-size: 14px;
+  }
+
+  .logo-image {
+    height: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-bar {
+    padding: 15px 0;
+  }
+
+  .logo-slider {
+    justify-content: center;
+    gap: 10px 20px;
+  }
+
+  .logo-item {
+    width: calc(33.33% - 20px);
+    justify-content: center;
+    padding: 8px 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-item {
+    width: calc(50% - 20px);
+  }
+}

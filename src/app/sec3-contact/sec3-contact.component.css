@@ -1,0 +1,284 @@
+/* Community Section Styles - Improved Responsive Version */
+.community-container {
+  width: 100%;
+  background-color: #EEEDE7;
+  padding: 80px 20px;
+  margin: 80px 0;
+}
+
+.community-content {
+  background-color: #f2f2f2;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  border-radius: 25px;
+  padding: 0px 0;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.community-text {
+  flex: 1;
+  max-width: 500px;
+  margin-left: 110px;
+  padding-right: 20px;
+}
+
+.community-text h4 {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(80, 50, 23, 1);
+  margin-bottom: 25px;
+}
+
+.community-description {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(143, 125, 106, 1);
+  margin-bottom: 35px;
+}
+
+.community-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 48px;
+  background-color: rgba(80, 50, 23, 1);
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.community-btn:hover {
+  background-color: rgba(60, 35, 15, 1);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(80, 50, 23, 0.3);
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+
+.community-btn:hover .btn-icon {
+  transform: translateX(3px);
+}
+
+.community-images {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  max-width: 650px;
+  /* padding-right: 50px; */
+}
+
+.image-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.image-wrapper.tall {
+  height: 320px;
+}
+
+.community-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.image-wrapper:hover .community-img {
+  transform: scale(1.05);
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .community-content {
+    max-width: 90%;
+  }
+
+  .community-text {
+    margin-left: 80px;
+  }
+
+  .community-images {
+    padding-right: 40px;
+  }
+
+  .image-wrapper {
+    height: 220px;
+  }
+
+  .image-wrapper.tall {
+    height: 280px;
+  }
+}
+
+@media (max-width: 992px) {
+  .community-content {
+    padding: 40px 30px;
+    gap: 30px;
+  }
+
+  .community-text {
+    margin-left: 0;
+    padding-right: 0;
+    max-width: 100%;
+  }
+
+  .community-images {
+    padding-right: 0;
+    max-width: 100%;
+  }
+
+  .image-wrapper {
+    height: 200px;
+  }
+
+  .image-wrapper.tall {
+    height: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .community-container {
+    padding: 60px 15px;
+    margin: 60px 0;
+  }
+
+  .community-content {
+    flex-direction: column;
+    padding: 40px 25px;
+  }
+
+  .community-text {
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 30px;
+  }
+
+  .community-btn {
+    margin: 0 auto;
+  }
+
+  .community-images {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .image-wrapper {
+    height: 180px;
+  }
+
+  .image-wrapper.tall {
+    height: 240px;
+  }
+}
+
+@media (max-width: 576px) {
+  .community-container {
+    padding: 40px 15px;
+    margin: 40px 0;
+  }
+
+  .community-content {
+    padding: 30px 20px;
+  }
+
+  .community-text h4 {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .community-description {
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .community-images {
+    gap: 15px;
+  }
+
+  .image-column {
+    gap: 15px;
+  }
+
+  .image-wrapper {
+    height: 160px;
+  }
+
+  .image-wrapper.tall {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .community-content {
+    padding: 25px 15px;
+  }
+
+  .community-images {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .image-column {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .image-wrapper,
+  .image-wrapper.tall {
+    height: 150px;
+  }
+
+  .community-text h4 {
+    font-size: 24px;
+  }
+
+  .community-description {
+    font-size: 14px;
+  }
+
+  .community-btn {
+    width: 150px;
+    height: 44px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .image-column {
+    flex-direction: column;
+  }
+
+  .image-wrapper,
+  .image-wrapper.tall {
+    height: 180px;
+  }
+}

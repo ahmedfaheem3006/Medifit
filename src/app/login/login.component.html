@@ -1,0 +1,63 @@
+<!-- login.component.html -->
+<div class="custom-bg">
+  <div class="d-flex align-items-center">
+    <div class="container">
+
+      <div id="toast-warning" class="toast align-items-center border-0 position-fixed top-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex bg-toast">
+          <div class="toast-body Outfit">
+            <i class="fa-solid fa-exclamation me-2 btn-fa"></i>
+            {{ toastMessage }}
+          </div>
+          <button type="button" id="btnclose" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div class="d-flex divlogo justify-content-end">
+        <div class="logo"><span class="logoico"></span>Medifit</div>
+      </div>
+      <div class="row justify-content-center mdiv">
+        <div class="col-12">
+          <h2 class="text-center creataccount outfit">Welcome Back...</h2>
+          <p class="text-center textsignup outfit">Sign in to access your account and continue shopping.</p>
+        </div>
+        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+            <form (ngSubmit)="onSubmit2()">
+              <div class="form-group">
+                <label for="Email" class="classlabel">Email*</label>
+                <input type="email" class="form-control outfit" id="Email" placeholder="Enter, Your Email..." [(ngModel)]="email" name="email" required autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label for="password" class="classlabel">Password*</label>
+                <div class="input-group mb-3 position-relative">
+                  <input
+                    type="password"
+                    class="form-control outfit"
+                    id="password"
+                    placeholder="Enter Your Password..."
+                    [(ngModel)]="password" name="password"
+                    required
+                    autocomplete="off"
+                    [type]="showPassword ? 'text' : 'password'"
+                  />
+                  <button
+                    title="toggle"
+                    type="button"
+                    (click)="togglePassword()"
+                    class="toggle-password-btn"
+                  >
+                    <i [ngClass]="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'" id="toggleIcon2" class="toogle"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="signupBtn Outfit w-100">Login</button>
+              <div class="forget Outfit" (click)="onclick()">Forgot your password?</div>
+
+              <!-- Added register redirect text -->
+              <p class="register-redirect Outfit">Don't have an account? <a (click)="navigateToRegister()" class="register-link">Sign up here</a></p>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

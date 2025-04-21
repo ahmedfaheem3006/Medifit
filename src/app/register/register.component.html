@@ -1,0 +1,69 @@
+<div class="custom-bg">
+  <div class="d-flex align-items-center">
+    <div class="container">
+
+      <div id="toast-warning" class="toast align-items-center border-0 position-fixed top-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex bg-toast">
+          <div class="toast-body Outfit">
+            <i class="fa-solid fa-exclamation me-2 btn-fa"></i>
+            {{ toastMessage }}
+          </div>
+          <button type="button" id="btnclose" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div class="d-flex divlogo justify-content-end">
+        <div class="logo"><span class="logoico"></span>Medifit</div>
+      </div>
+      <div class="row justify-content-center mdiv">
+        <div class="col-12">
+          <h2 class="text-center creataccount outfit">Create Your Account</h2>
+          <p class="text-center textsignup outfit">Sign up to enjoy personalized shopping, track your orders, and save your favorite products!</p>
+        </div>
+        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+            <form (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="Name" class="classlabel">Username*</label>
+                <input type="text" class="form-control outfit" id="Name" placeholder="Enter, Your Username..." required autocomplete="off" [(ngModel)]="username" name="username"/>
+              </div>
+              <div class="form-group">
+                <label for="Email" class="classlabel">Email*</label>
+                <input type="email" class="form-control outfit" id="Email" placeholder="Enter, Your Email..." [(ngModel)]="email" name="email" required autocomplete="off"/>
+              </div>
+              <div class="form-group">
+                <label for="password" class="classlabel">Password*</label>
+                <div class="input-group mb-3 position-relative">
+                  <input
+                    type="password"
+                    class="form-control outfit"
+                    id="password"
+                    placeholder="Enter Your Password..."
+                    [(ngModel)]="password" name="password"
+                    required
+                    autocomplete="off"
+                    [type]="showPassword ? 'text' : 'password'"
+                  />
+                  <button
+                    title="toggle"
+                    type="button"
+                    (click)="togglePassword()"
+                    class="toggle-password-btn"
+                  >
+                    <i [ngClass]="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'" id="toggleIcon2" class="toogle"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="signupBtn Outfit w-100">Sign Up</button>
+              <div class="separator Outfit">
+                <span>OR Signup with</span>
+              </div>
+              <div class="google Outfit" (click)="googleLogin()"><i class="fab fa-google icongoogle"></i>Sign up with Google</div>
+
+              <!-- Added login redirect text -->
+              <p class="login-redirect Outfit">Already have an account? <a (click)="navigateToLogin()" class="login-link">Login here</a></p>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

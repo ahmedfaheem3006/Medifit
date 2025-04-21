@@ -1,0 +1,165 @@
+/* FAQ Section Styles */
+.faq-container {
+  margin: 90px auto;
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .faq-container {
+    flex-direction: row;
+    gap: 25px;
+    align-items: flex-start;
+  }
+}
+
+.faq-header {
+  margin-bottom: 40px;
+}
+
+@media (min-width: 992px) {
+  .faq-header {
+    width: 35%;
+    margin-bottom: 0;
+  }
+
+  .faq-content {
+    width: 65%;
+  }
+}
+
+.faq-header h3 {
+  color: #503217;
+  font-size: 44px;
+  /* display: flex; */
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.question-icon {
+  width: clamp(35px, 5vw, 60px);
+  height: auto;
+}
+
+.accordion {
+  width: 100%;
+}
+
+.accordion-item {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #503217;
+  border-radius: 10px;
+  background-color: #EEEDE7;
+  overflow: hidden;
+}
+
+.accordion-button {
+  padding: 15px 20px;
+  background-color: #EEEDE7;
+  border-radius: 10px !important;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: #503217;
+}
+
+.accordion-button::after {
+  display: none !important;
+}
+
+.icon-container {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+/* This rotates the plus icon to make it look like an X */
+.accordion-button:not(.collapsed) .toggle-icon {
+  transform: rotate(45deg);
+}
+
+.accordion-button h5 {
+  color: #503217;
+  margin: 0;
+  font-size: 24;
+  font-family: Poppins;
+  font-weight: 500;
+}
+
+.accordion-body {
+  padding: 15px 20px 20px 65px;
+}
+
+.accordion-body p {
+  color: #8F7D6A;
+  margin: 0;
+  font-weight: 400;
+  font-family: Poppins;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .faq-container {
+    margin: 60px auto;
+  }
+
+  .accordion-item {
+    margin-bottom: 15px;
+  }
+
+  .accordion-button {
+    padding: 12px 15px;
+  }
+
+  .accordion-body {
+    padding: 12px 15px 15px 55px;
+  }
+}
+
+@media (max-width: 480px) {
+  .faq-container {
+    margin: 40px auto;
+    padding: 0 15px;
+  }
+
+  .faq-header h3 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .accordion-button {
+    padding: 10px 12px;
+  }
+
+  .icon-container {
+    margin-right: 10px;
+  }
+
+  .accordion-body {
+    padding: 10px 12px 15px 45px;
+  }
+}

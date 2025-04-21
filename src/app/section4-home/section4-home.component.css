@@ -1,0 +1,424 @@
+.testimonials-container {
+  padding: 5rem 6rem;
+  background-color: #f5f4f0;
+  font-family: Poppins, sans-serif;
+}
+
+.testimonials-title {
+  font-size: 42px;
+  color: #503217;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.testimonial-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background-color: rgba(242, 242, 242, 1);
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.quote-icon {
+  position: absolute;
+  top: 2rem;
+  left: 3rem;
+  opacity: 0.5;
+  z-index: 1; /* Ensure it's above the text */
+}
+
+.quote-icon img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.testimonial-content {
+  position: relative;
+  padding: 0 0 1rem 0;
+  min-height: 150px;
+  z-index: 2; /* Ensure content is above the icon */
+}
+
+.testimonial-text {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(143, 125, 106, 1);
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: opacity 0.3s ease;
+  display: none;
+}
+
+.testimonial-text.active {
+  opacity: 1;
+  position: relative;
+  display: block;
+}
+
+.client-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.client-tab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(80, 50, 23, 0.05);
+}
+
+.client-tab.active {
+  border: 1px solid #503217;
+  background-color: rgba(80, 50, 23, 0.05);
+}
+
+.client-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.client-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.client-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.client-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #503217;
+  margin: 0;
+}
+
+.client-position {
+  font-size: 14px;
+  color: #8f7d6a;
+  margin: 0;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1250px) {
+  .testimonials-container {
+    padding: 3rem 4rem;
+  }
+
+  .testimonial-card {
+    padding: 2rem;
+  }
+
+  /* Create a separate container for the quote icon */
+  .quote-icon {
+    position: static; /* Remove absolute positioning */
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem; /* Add more space below the icon */
+    opacity: 0.5;
+  }
+
+  .quote-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Ensure the testimonial content starts after the icon */
+  .testimonial-content {
+    padding-top: 0;
+    margin-top: 0; /* Reset any margin */
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .testimonials-container {
+    padding: 2rem;
+  }
+
+  .testimonials-title {
+    font-size: 32px;
+  }
+
+  .client-tabs {
+    gap: 10px;
+  }
+
+  .client-tab {
+    padding: 8px 12px;
+  }
+
+  .client-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Further adjustments for smaller screens */
+  .testimonial-card {
+    padding: 1.5rem;
+  }
+
+  .quote-icon {
+    margin-bottom: 1.5rem;
+  }
+
+  .quote-icon img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .client-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .client-tab {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .quote-icon {
+    margin-bottom: 1.2rem;
+  }
+
+  .quote-icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .testimonial-text {
+    font-size: 16px;
+  }
+}
+
+
+/* Medifit promotional section styles */
+.medifit-promo {
+  margin-top: 7rem;
+  width: 100%;
+  text-align: center;
+  font-family: Poppins;
+}
+
+.medifit-title {
+  font-size: 48px;
+  color: #503217;
+  font-weight: 500;
+  margin-bottom: 4rem;
+}
+
+.medifit-images {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.medifit-image {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.medifit-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(80, 50, 23, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.medifit-image::after {
+  content: "@medifit";
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease, bottom 0.3s ease;
+  z-index: 2;
+}
+
+.medifit-image .instagram-logo {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  transition: opacity 0.3s ease, top 0.3s ease;
+  z-index: 2;
+}
+
+.medifit-image:hover::before,
+.medifit-image:hover::after,
+.medifit-image:hover .instagram-logo {
+  opacity: 1;
+}
+
+.medifit-image:hover::after {
+  bottom: 35%;
+}
+
+.medifit-image:hover .instagram-logo {
+  top: 45%;
+}
+
+.medifit-image1 {
+  width: 300px;
+  height: 450px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.medifit-image2 {
+  width: 300px;
+  height: 380px;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.medifit-image3 {
+  width: 300px;
+  height: 340px;
+  border-radius: 180px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.medifit-image4 {
+  width: 300px;
+  height: 340px;
+  border-radius: 110px 110px 10px 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.medifit-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive styles for Medifit promo */
+@media screen and (max-width: 1250px) {
+  .medifit-image1, .medifit-image2, .medifit-image3, .medifit-image4 {
+    width: 220px;
+    height: 220px;
+  }
+
+  .medifit-image::after {
+    font-size: 16px;
+  }
+
+  .medifit-image .instagram-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .medifit-title {
+    font-size: 48px;
+    color: #503217;
+    font-weight: 500;
+    margin-bottom: 4rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .medifit-title {
+    font-size: 48px;
+    color: #503217;
+    font-weight: 500;
+    margin-bottom: 4rem;
+  }
+
+  .medifit-images {
+    flex-direction: column; /* Stack images vertically */
+    align-items: center; /* Center images horizontally */
+    gap: 30px; /* Increase gap between stacked images */
+  }
+
+  .medifit-image1, .medifit-image2, .medifit-image3, .medifit-image4 {
+    width: 80%; /* Make images wider on mobile */
+    max-width: 300px; /* Limit maximum width */
+    height: 300px; /* Fixed height for all images */
+  }
+
+  .medifit-image::after {
+    font-size: 16px; /* Slightly larger font for better visibility */
+    bottom: 38%;
+  }
+
+  .medifit-image .instagram-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .medifit-image:hover::after {
+    bottom: 35%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .medifit-images {
+    gap: 20px; /* Slightly reduce gap for very small screens */
+  }
+
+  .medifit-image1, .medifit-image2, .medifit-image3, .medifit-image4 {
+    width: 90%;
+    height: 250px;
+  }
+
+  .medifit-image::after {
+    font-size: 14px;
+  }
+
+  .medifit-image .instagram-logo {
+    width: 35px;
+    height: 35px;
+  }
+}

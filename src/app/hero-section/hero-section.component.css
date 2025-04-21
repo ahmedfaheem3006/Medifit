@@ -1,0 +1,146 @@
+/* hero-section.component.css */
+.hero-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5rem 6rem;
+  background-color: #e8e6de;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 50%;
+}
+
+.hero-title {
+  font-family: Poppins;
+  font-size: 82px;
+  color: #503217;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  font-family: Poppins;
+  font-weight: 400;
+  color: #8f7d6a;
+  margin-bottom: 3rem;
+  max-width: 90%;
+  margin-top: 40px;
+}
+
+.shop-button {
+  background-color: #503217;
+  color: #F2F2F2;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: Poppins;
+}
+.shop-button:hover {
+  background-color: #3e2712;
+}
+
+.shop-icon img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* This will make the icon white (#F2F2F2) */
+}
+
+.hero-image {
+  max-width: 45%;
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  clip-path: inset(4px 4px 4px 4px);
+}
+
+.image-icon img{
+  clip-path: inset(4px 4px 10px 4px);
+}
+/* Responsive styles */
+@media screen and (max-width: 1200px) {
+  .hero-title {
+    font-size: 60px;
+  }
+
+  .hero-container {
+    padding: 3rem 4rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .hero-title {
+    font-size: 48px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .hero-container {
+    padding: 2.5rem 3rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    margin-bottom: 2rem;
+    order: 2;
+  }
+
+  .hero-image {
+    max-width: 80%;
+    margin-bottom: 1.5rem;
+    order: 1;
+  }
+
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .hero-subtitle {
+    margin: 0 auto 1.5rem;
+    max-width: 100%;
+  }
+
+  .shop-button {
+    margin: 0 auto;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-image {
+    max-width: 100%;
+  }
+
+  .hero-container {
+    padding: 1.5rem 1rem;
+  }
+}

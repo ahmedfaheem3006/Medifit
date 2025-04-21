@@ -1,0 +1,33 @@
+.contain {
+  display: flex;
+  flex-direction: column;
+  /* height: calc(100%-91px); */
+  width: 100% !important;
+  position: relative;
+}
+
+.main-content {
+  /* flex: 1; */
+  margin-top: 91px;
+}
+
+/* تعديلات للـ header */
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* تعديلات للـ footer */
+app-footer {
+  width: 100%;
+}
+
+/* للشاشات الصغيرة */
+@media (max-width: 480px) {
+  .main-content {
+    margin-top: 70px; /* تعديل المسافة حسب ارتفاع الهيدر في الموبايل */
+  }
+}

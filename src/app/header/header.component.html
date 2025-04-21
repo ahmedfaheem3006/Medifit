@@ -1,0 +1,145 @@
+<!-- header.component.html -->
+<header class="header">
+  <!-- Logo on the left -->
+  <div class="logo"><span class="logoico"></span>Medifit</div>
+
+  <!-- Navigation in the center -->
+  <nav class="nav" [ngClass]="{ open: isMobileMenuOpen }">
+    <a routerLink="/home" class="nav-link">Home</a>
+    <a routerLink="/home2" class="nav-link">Shop</a>
+    <div class="dropdown">
+      <div class="nav-link dropdown-toggle" (click)="toggleDropdown($event)">
+        Pages
+        <span class="dropdown-icon">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            xmlns="http://www.w3.org/2000/svg"
+            [ngClass]="{ rotated: isDropdownOpen }"
+          >
+            <path
+              d="M7.5 11.25L1.5 5.25L2.55 4.2L7.5 9.15L12.45 4.2L13.5 5.25L7.5 11.25Z"
+              fill="#503217"
+            />
+          </svg>
+        </span>
+      </div>
+      <div class="dropdown-menu" [ngClass]="{ show: isDropdownOpen }">
+        <a href="#" class="dropdown-item">Lab equipment</a>
+        <a href="#" class="dropdown-item">Health care</a>
+        <a href="#" class="dropdown-item">Medicine</a>
+        <a href="#" class="dropdown-item">Fitness</a>
+        <a href="#" class="dropdown-item">medical devices</a>
+        <a href="#" class="dropdown-item">Beauty care</a>
+      </div>
+    </div>
+    <a routerLink="/about" class="nav-link">About</a>
+    <a routerLink="/contact-us" class="nav-link">Contact</a>
+
+    <!-- Mobile auth buttons inside the mobile menu -->
+    <div class="mobile-auth-buttons" *ngIf="!isLoggedIn">
+      <button class="auth-button login-button" (click)="navigateToLogin()">
+        Login
+      </button>
+      <button
+        class="auth-button register-button"
+        (click)="navigateToRegister()"
+      >
+        Register
+      </button>
+    </div>
+
+    <!-- Mobile user info and logout -->
+    <div class="mobile-user-info" *ngIf="isLoggedIn">
+      <span class="username">{{ username }}</span>
+      <div class="cart-container mobile-cart">
+        <a href="#" class="cart-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path
+              d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+            ></path>
+          </svg>
+          <span class="cart-count" *ngIf="cartItemCount > 0">{{
+            cartItemCount
+          }}</span>
+        </a>
+      </div>
+      <button class="auth-button logout-button" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- Right side elements -->
+  <div class="header-right">
+    <!-- Mobile menu toggle button on the right -->
+    <div class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Auth container -->
+    <div class="auth-container">
+      <!-- Show when user is not logged in (desktop version) -->
+      <div class="auth-buttons" *ngIf="!isLoggedIn">
+        <button class="auth-button login-button" (click)="navigateToLogin()">
+          Login
+        </button>
+        <button
+          class="auth-button register-button"
+          (click)="navigateToRegister()"
+        >
+          Register
+        </button>
+      </div>
+
+      <!-- Show when user is logged in (desktop version) -->
+      <div class="user-info" *ngIf="isLoggedIn">
+        <div class="user-dropdown">
+          <span class="username">{{ username }}</span>
+          <button class="logout-icon" (click)="logout()" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+        <div class="cart-container">
+          <a href="#" class="cart-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path
+                d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+              ></path>
+            </svg>
+            <span class="cart-count" *ngIf="cartItemCount > 0">{{
+              cartItemCount
+            }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
