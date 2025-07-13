@@ -6,7 +6,14 @@
     Have questions or need support? Get in touch with our team – we're here to help!
   </p>
 
-  <form class="contact-form">
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
     <div class="form-row">
       <div class="form-group">
         <label for="inputFullName">Full Name</label>
@@ -15,10 +22,14 @@
             type="text"
             class="form-control"
             id="inputFullName"
-            name="fullName"
-            required
+            formControlName="fullName"
+            [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }"
           />
           <i class="input-icon"><img src="../../assets/img/user.svg" alt="" /></i>
+          <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
+            <div *ngIf="f['fullName'].errors['required']">Full name is required</div>
+            <div *ngIf="f['fullName'].errors['minlength']">Must be at least 2 characters</div>
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -28,10 +39,14 @@
             type="email"
             class="form-control"
             id="inputEmail"
-            name="email"
-            required
+            formControlName="email"
+            [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
           />
           <i class="input-icon"><img src="../../assets/img/envelope.svg" alt="" /></i>
+          <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+            <div *ngIf="f['email'].errors['required']">Email is required</div>
+            <div *ngIf="f['email'].errors['email']">Please enter a valid email</div>
+          </div>
         </div>
       </div>
     </div>
@@ -44,23 +59,31 @@
             type="tel"
             class="form-control"
             id="inputPhone"
-            name="phone"
-            required
+            formControlName="phone"
+            [ngClass]="{ 'is-invalid': submitted && f['phone'].errors }"
           />
           <i class="input-icon"><img src="../../assets/img/phone2.svg" alt="" /></i>
+          <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+            <div *ngIf="f['phone'].errors['required']">Phone number is required</div>
+            <div *ngIf="f['phone'].errors['pattern']">Please enter a valid phone number</div>
+          </div>
         </div>
       </div>
       <div class="form-group">
         <label for="inputSchedule">Schedule to receive call</label>
         <div class="input-wrapper">
           <input
-            type="text"
+            type="date"
             class="form-control"
             id="inputSchedule"
-            name="schedule"
-            required
+            formControlName="schedule"
+            [min]="minDate"
+            [ngClass]="{ 'is-invalid': submitted && f['schedule'].errors }"
           />
           <i class="input-icon"><img src="../../assets/img/clock.svg" alt="" /></i>
+          <div *ngIf="submitted && f['schedule'].errors" class="invalid-feedback">
+            <div *ngIf="f['schedule'].errors['required']">Schedule date is required</div>
+          </div>
         </div>
       </div>
     </div>
@@ -71,17 +94,23 @@
         <textarea
           class="form-control"
           id="inputMessage"
-          name="message"
-          required
+          formControlName="message"
+          [ngClass]="{ 'is-invalid': submitted && f['message'].errors }"
         ></textarea>
         <i class="input-icon message-icon"><img src="../../assets/img/pen-to-square.svg" alt="" /></i>
+        <div *ngIf="submitted && f['message'].errors" class="invalid-feedback">
+          <div *ngIf="f['message'].errors['required']">Message is required</div>
+          <div *ngIf="f['message'].errors['minlength']">Must be at least 10 characters</div>
+        </div>
       </div>
     </div>
 
     <div class="form-button">
-      <button class="btn" type="submit">
-        <span>Submit</span>
-        <i class="button-icon"><img src="../../assets/img/hand-pointer.svg" alt="" /></i>
+      <button class="btn" type="submit" [disabled]="loading">
+        <span *ngIf="!loading">Submit</span>
+        <span *ngIf="loading">Sending...</span>
+        <i class="button-icon" *ngIf="!loading"><img src="../../assets/img/hand-pointer.svg" alt="" /></i>
+        <i class="button-icon spinner" *ngIf="loading"></i>
       </button>
     </div>
   </form>

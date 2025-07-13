@@ -1,1 +1,136 @@
-<p>admin works!</p>
+<div class="custom-bg">
+  <div class="container mt-5">
+
+    <div id="toast-warning" class="toast align-items-center border-0 position-fixed top-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex bg-toast">
+        <div class="toast-body Outfit">
+          <i class="fa-solid fa-exclamation me-2 btn-fa"></i>
+          {{ toastMessage }}
+        </div>
+        <button type="button" id="btnclose" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="tx1 h3 Outfit">Manage Products</h1>
+    </div>
+
+    <!-- <div id="questionsContainer" class="mb-3">
+      <h2 class="h4 Outfit tx2">All Products</h2>
+      <div id="questionsList" class="list-group"></div>
+    </div> -->
+
+    <div class="boxz p-4 rounded shadow">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h5 Outfit" id="formTitle">Add New Product</h2>
+        <button type="button" class="btns Outfit" routerLink="/filters">Review</button>
+      </div>
+      <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)" id="questionForm">
+
+        <div class="mb-3">
+          <label class="form-label Outfit">Type:</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="LabEquipment" [(ngModel)]="productType" value="Lab equipment" checked required>
+            <label class="form-check-label Outfit" for="LabEquipment">Lab equipment</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="HealthCare" [(ngModel)]="productType" value="Health care">
+            <label class="form-check-label Outfit" for="HealthCare">Health care</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="Medicine" [(ngModel)]="productType" value="Medicine">
+            <label class="form-check-label Outfit" for="Medicine">Medicine</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="Fitness" [(ngModel)]="productType" value="Fitness">
+            <label class="form-check-label Outfit" for="Fitness">Fitness</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="MedicalDevices" [(ngModel)]="productType" value="Medical devices">
+            <label class="form-check-label Outfit" for="MedicalDevices">Medical devices</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="BeautyCare" [(ngModel)]="productType" value="Beauty care">
+            <label class="form-check-label Outfit" for="BeautyCare">Beauty care</label>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label Outfit">Rating:</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="one" id="one" [(ngModel)]="ratingType" value="1" checked required >
+            <label class="form-check-label Outfit" for="one">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="two" id="two" title="two" [(ngModel)]="ratingType" value="2">
+            <label class="form-check-label Outfit" for="two">2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="three" id="three" title="three" [(ngModel)]="ratingType" value="3">
+            <label class="form-check-label Outfit" for="three">3</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="four" id="four" title="four" [(ngModel)]="ratingType" value="4">
+            <label class="form-check-label Outfit" for="four">4</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="five" id="five" title="five" [(ngModel)]="ratingType" value="5">
+            <label class="form-check-label Outfit" for="five">5</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="classlabel" for="Productname">Name*</label>
+            <input id="Productname" type="text" [(ngModel)]="Productname" name="Productname" placeholder="Productname...." class="Outfit form-control" required autocomplete="off">
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="classlabel" for="price">Price*</label>
+            <input id="price" type="text" [(ngModel)]="price" name="price" placeholder="Price...." class="form-control Outfit" required autocomplete="off">
+          </div>
+          <div class="col-md-5 mb-3 custom-file-upload">
+            <label class="classlabel" for="Image">Image*</label>
+            <input id="Image" type="file" name="Image" placeholder="Image...." class="form-control Outfit" (change)="onFileSelected($event)" required autocomplete="off">
+            <span *ngIf="image" class="text-muted mt-2 d-block z-1">
+              Selected Image: {{ image.name || image }}
+            </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="classlabel" for="salePercentage">Sale Percentage (%)*</label>
+            <input id="salePercentage" type="number" [(ngModel)]="salePercentage" name="salePercentage" placeholder="Enter sale percentage..." class="form-control Outfit" autocomplete="off">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="classlabel" for="priceAfterSale">Price After Sale*</label>
+            <input id="priceAfterSale" type="number" [(ngModel)]="priceAfterSale" name="priceAfterSale" placeholder="Price after sale..." class="form-control Outfit" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="classlabel" for="description">Description*</label>
+            <textarea id="description" [(ngModel)]="description" name="description"
+              placeholder="Write a description..."
+              class="form-control Outfit" required rows="5"></textarea>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="classlabel" for="keyBenefits">Key Benefits*</label>
+            <textarea id="keyBenefits" [(ngModel)]="keyBenefits" name="keyBenefits"
+              placeholder="List key benefits (separate with commas)..."
+              class="form-control Outfit" required rows="5"></textarea>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-around">
+          <button type="submit" class="btns Outfit">Submit</button>
+          <button type="button" class="btns Outfit" (click)="oneditproduct()">Edit</button>
+          <button type="button" class="btns Outfit" (click)="deleteproduct()">Delete</button>
+          <button type="button" class="btns Outfit" (click)="deleteAllproducts()">Delete All Products</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

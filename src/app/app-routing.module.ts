@@ -12,8 +12,12 @@ import { Home2Component } from './home2/home2.component';
 import { AboutComponent } from './about/about.component';
 import { FiltersComponent } from './filters/filters.component';
 import { AdminComponent } from './admin/admin.component';
-
-
+import { ProductdetailsComponent } from './productdetails/productdetails.component';
+import { PaymentmethodComponent } from './paymentmethod/paymentmethod.component';
+import { CardComponent } from './card/card.component';
+import { ShippingaddressComponent } from './shippingaddress/shippingaddress.component';
+import { UserordersComponent } from './userorders/userorders.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -27,11 +31,21 @@ const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'filters', component: FiltersComponent },
-  { path: 'admin', component: AdminComponent }
+  { path: 'productdetails', component: ProductdetailsComponent },
+  { path: 'Paymentmethod', component: PaymentmethodComponent },
+  { path: 'Card', component: CardComponent },
+  { path: 'admin', component: AdminComponent },
+  { path: 'shippingaddress', component: ShippingaddressComponent },
+  { path: 'orders', component: UserordersComponent },
+  { path: 'dashboard', component: DashboardComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'top',
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

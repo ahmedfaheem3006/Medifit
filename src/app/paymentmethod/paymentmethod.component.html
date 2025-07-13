@@ -1,0 +1,208 @@
+<div class="payment-page">
+  <app-header></app-header>
+  <div class="payment-container">
+    <!-- Success Toast -->
+    <div class="success-toast" id="success-toast">
+      <div class="toast-content">
+        <div class="toast-icon">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <div class="toast-message">{{ toastMessage }}</div>
+        <button title="toast" class="toast-close" (click)="closeToast()">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Page Header -->
+    <header class="page-header">
+      <h1 class="page-title">Payment Method</h1>
+      <p class="page-subtitle">Secure, fast, and convenient payment options for a seamless checkout.</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="payment-content">
+      <!-- Left Section: Payment Methods -->
+      <div class="payment-methods-container">
+        <div class="payment-methods-card">
+          <div class="payment-accordion">
+            <!-- Credit Card Payment Method -->
+            <div class="payment-method">
+              <div class="payment-method-header" (click)="togglePaymentMethod('creditCard')">
+                <div class="payment-method-icon">
+                  <i class="fa-solid fa-credit-card"></i>
+                </div>
+                <h3 class="payment-method-title">Credit Card</h3>
+                <div class="payment-method-toggle">
+                  <i class="fa-solid" [ngClass]="selectedPaymentMethod === 'creditCard' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+              </div>
+
+              <div class="payment-method-content" [ngClass]="{'active': selectedPaymentMethod === 'creditCard'}">
+                <form [formGroup]="creditCardForm">
+                  <div class="form-group">
+                    <label for="cardName">Card Holder Name</label>
+                    <input type="text" id="cardName" formControlName="cardName" placeholder="Enter Card Holder Name" class="form-control">
+                    <div class="error-message" *ngIf="isFieldInvalid(creditCardForm, 'cardName')">
+                      Card holder name is required
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" formControlName="cardNumber" placeholder="Enter Card Number" class="form-control" maxlength="19">
+                    <div class="error-message" *ngIf="isFieldInvalid(creditCardForm, 'cardNumber')">
+                      Valid card number is required (16 digits)
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group half-width">
+                      <label for="expiryDate">Expiry Date</label>
+                      <input type="text" id="expiryDate" formControlName="expiryDate" placeholder="MM/YY" class="form-control" maxlength="5">
+                      <div class="error-message" *ngIf="isFieldInvalid(creditCardForm, 'expiryDate')">
+                        Valid expiry date required (MM/YY)
+                      </div>
+                    </div>
+
+                    <div class="form-group half-width">
+                      <label for="cvv">CVV</label>
+                      <input type="password" id="cvv" formControlName="cvv" placeholder="Enter CVV" class="form-control" maxlength="4">
+                      <div class="error-message" *ngIf="isFieldInvalid(creditCardForm, 'cvv')">
+                        Valid CVV is required (3-4 digits)
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- PayPal Payment Method -->
+            <div class="payment-method">
+              <div class="payment-method-header" (click)="togglePaymentMethod('paypal')">
+                <div class="payment-method-icon">
+                  <i class="fa-brands fa-paypal"></i>
+                </div>
+                <h3 class="payment-method-title">PayPal</h3>
+                <div class="payment-method-toggle">
+                  <i class="fa-solid" [ngClass]="selectedPaymentMethod === 'paypal' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+              </div>
+
+              <div class="payment-method-content" [ngClass]="{'active': selectedPaymentMethod === 'paypal'}">
+                <form [formGroup]="paypalForm">
+                  <div class="form-group">
+                    <label for="paypalEmail">PayPal Email</label>
+                    <input type="email" id="paypalEmail" formControlName="paypalEmail" placeholder="Enter your PayPal email" class="form-control">
+                    <div class="error-message" *ngIf="isFieldInvalid(paypalForm, 'paypalEmail')">
+                      Valid PayPal email is required
+                    </div>
+                  </div>
+                  <div class="payment-method-info">
+                    <p>You will be redirected to PayPal to complete your payment securely.</p>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Apple Pay Payment Method -->
+            <div class="payment-method">
+              <div class="payment-method-header" (click)="togglePaymentMethod('applePay')">
+                <div class="payment-method-icon">
+                  <i class="fa-brands fa-apple-pay"></i>
+                </div>
+                <h3 class="payment-method-title">Apple Pay</h3>
+                <div class="payment-method-toggle">
+                  <i class="fa-solid" [ngClass]="selectedPaymentMethod === 'applePay' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+              </div>
+
+              <div class="payment-method-content" [ngClass]="{'active': selectedPaymentMethod === 'applePay'}">
+                <div class="payment-method-info">
+                  <p>Click the 'Complete Payment' button to authenticate with Apple Pay.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Google Pay Payment Method -->
+            <div class="payment-method">
+              <div class="payment-method-header" (click)="togglePaymentMethod('googlePay')">
+                <div class="payment-method-icon">
+                  <i class="fa-brands fa-google-pay"></i>
+                </div>
+                <h3 class="payment-method-title">Google Pay</h3>
+                <div class="payment-method-toggle">
+                  <i class="fa-solid" [ngClass]="selectedPaymentMethod === 'googlePay' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+              </div>
+
+              <div class="payment-method-content" [ngClass]="{'active': selectedPaymentMethod === 'googlePay'}">
+                <div class="payment-method-info">
+                  <p>Click the 'Complete Payment' button to authenticate with Google Pay.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Section: Order Summary -->
+      <div class="order-summary-container">
+        <div class="order-summary">
+          <h2 class="summary-title">Order Summary</h2>
+
+          <!-- Cart Items Preview -->
+          <div class="cart-items-preview">
+            <h3 class="items-title">Order Items ({{cartItems.length}})</h3>
+            <div class="product-preview-list">
+              <div class="product-preview" *ngFor="let item of cartItems">
+                <div class="product-image">
+                  <img [src]="'../../assets/img/' + item.product.image" alt="{{item.product.name}}">
+                </div>
+                <div class="product-details">
+                  <h3 class="product-name">{{item.product.name}}</h3>
+                  <p class="product-price">{{item.product.price_after_sale || item.product.price}} EGP</p>
+                  <p class="product-quantity">Quantity: {{item.quantity}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row">
+            <span class="summary-label">Subtotal:</span>
+            <span class="summary-value">{{ getSubtotal() }} EGP</span>
+          </div>
+
+          <div class="summary-row" *ngIf="getDiscount() > 0">
+            <span class="summary-label">Discount:</span>
+            <span class="summary-value">{{ getDiscount() }} EGP</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Delivery Fee:</span>
+            <span class="summary-value">50 EGP</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row total-row">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value">{{ getTotal() }} EGP</span>
+          </div>
+
+          <button class="complete-payment-btn" [disabled]="!isSelectedMethodValid() || isProcessing" (click)="completePayment()">
+            <span *ngIf="!isProcessing">Complete Payment</span>
+            <span *ngIf="isProcessing"><i class="fa-solid fa-spinner fa-spin"></i> Processing...</span>
+          </button>
+
+          <button class="back-btn" [disabled]="isProcessing" (click)="goBack()">
+            Back to Shipping
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <app-footer></app-footer>
+</div>

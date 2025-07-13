@@ -57,7 +57,7 @@
       <div class="product-content">
         <div class="tag">Sanitizer</div>
         <h3 class="product-title">Hand sanitizer collection</h3>
-        <button class="shop-button">
+        <button class="shop-button" (click)="onclick()">
           <span class="shop-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19 6H5C3.89 6 3 6.89 3 8V16C3 17.11 3.89 18 5 18H19C20.11 18 21 17.11 21 16V8C21 6.89 20.11 6 19 6ZM19 16H5V8H19V16Z" fill="#503217"/>
@@ -76,7 +76,7 @@
       <div class="product-content">
         <div class="tag">Top deals</div>
         <h3 class="product-title">Face wash sale collection</h3>
-        <button class="discover-button">
+        <button class="discover-button" (click)="onclick()">
           <span class="discover-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="#503217"/>
@@ -95,7 +95,7 @@
       <div class="product-content">
         <div class="tag">Face mask</div>
         <h3 class="product-title">Facial mask deals save up to 50%</h3>
-        <button class="discover-button">
+        <button class="discover-button" (click)="onclick()">
           <span class="discover-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="#503217"/>
@@ -123,7 +123,7 @@
         <div class="product-image-container">
           <img src="../../assets/img/c4d6b79af24e5d1e9e2b2b0cd44659dd.png" alt="Microscope" class="product-img">
           <div class="overlay">
-            <div class="shop-now-btn">
+            <div class="shop-now-btn" (click)="onclick()">
               <span class="cart-icon">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
@@ -136,7 +136,7 @@
       </div>
       <h3 class="product-name">Microscope</h3>
       <div class="product-price">
-        <span class="current-price">$45.00 USD</span>
+        <span class="current-price">2,200.00 EGP</span>
       </div>
     </div>
 
@@ -146,7 +146,7 @@
         <div class="product-image-container">
           <img src="../../assets/img/fa8f22a80590f382c2e31875e96430f7.png" alt="Pulse oximeter" class="product-img">
           <div class="overlay">
-            <div class="shop-now-btn">
+            <div class="shop-now-btn" (click)="onclick()">
               <span class="cart-icon">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
@@ -159,8 +159,8 @@
       </div>
       <h3 class="product-name">Pulse oximeter</h3>
       <div class="product-price">
-        <span class="current-price">$19.00 USD</span>
-        <span class="original-price">$25.00 USD</span>
+        <span class="current-price">930.00 EGP</span>
+        <span class="original-price">1,225.00 EGP</span>
       </div>
     </div>
 
@@ -170,7 +170,7 @@
         <div class="product-image-container">
           <img src="../../assets/img/fc87998e45f87a3f40dee2ade09b3a97.png" alt="Vitamin serum" class="product-img">
           <div class="overlay">
-            <div class="shop-now-btn">
+            <div class="shop-now-btn" (click)="onclick()">
               <span class="cart-icon">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
@@ -183,8 +183,8 @@
       </div>
       <h3 class="product-name">Vitamin serum</h3>
       <div class="product-price">
-        <span class="current-price">$20.00 USD</span>
-        <span class="original-price">$30.00 USD</span>
+        <span class="current-price">980.00 EGP</span>
+        <span class="original-price">1,470.00 EGP</span>
       </div>
     </div>
 
@@ -194,7 +194,7 @@
         <div class="product-image-container">
           <img src="../../assets/img/24624735a264d07405ae77ed4256ed09.png" alt="High protein" class="product-img">
           <div class="overlay">
-            <div class="shop-now-btn">
+            <div class="shop-now-btn" (click)="onclick()">
               <span class="cart-icon">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
@@ -207,10 +207,11 @@
       </div>
       <h3 class="product-name">High protein</h3>
       <div class="product-price">
-        <span class="current-price">$50.00 USD</span>
+        <span class="current-price">2,450.00 EGP</span>
       </div>
     </div>
   </div>
+
 
   <div class="features-container">
     <div class="feature-item">

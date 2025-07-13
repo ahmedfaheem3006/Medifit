@@ -39,6 +39,10 @@ export class RegisterComponent {
     this.initialEmail = this.email;
   }
 
+  home(): void {
+    this.router.navigate(['/home']);
+  }
+
   showToast() {
     const toastEl = document.getElementById('toast-warning');
     if (toastEl) {

@@ -1,0 +1,224 @@
+<div class="shipping-page">
+  <app-header></app-header>
+  <div class="shipping-container">
+    <!-- Page Header -->
+    <header class="page-header">
+      <h1 class="page-title">Shipping Address</h1>
+      <p class="page-subtitle">
+        Please enter your shipping information to continue checkout.
+      </p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="shipping-content">
+      <!-- Left Section: Form -->
+      <div class="shipping-form-container">
+        <div class="shipping-form-card">
+          <form [formGroup]="shippingForm" (ngSubmit)="onSubmit()">
+            <div class="form-header">
+              <h2 class="form-title">Contact Information</h2>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input
+                type="text"
+                id="fullName"
+                formControlName="fullName"
+                placeholder="Enter your full name"
+                class="form-control"
+              />
+              <div class="error-message" *ngIf="isFieldInvalid('fullName')">
+                Full name is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                placeholder="Enter your email address"
+                class="form-control"
+              />
+              <div class="error-message" *ngIf="isFieldInvalid('email')">
+                Valid email is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                formControlName="phone"
+                placeholder="Enter your phone number"
+                class="form-control"
+              />
+              <div class="error-message" *ngIf="isFieldInvalid('phone')">
+                Valid phone number is required
+              </div>
+            </div>
+
+            <div class="form-header">
+              <h2 class="form-title">Shipping Details</h2>
+            </div>
+
+            <!-- Shipping Information -->
+            <div class="form-group">
+              <label for="address">Street Address</label>
+              <input
+                type="text"
+                id="address"
+                formControlName="address"
+                placeholder="Enter your street address"
+                class="form-control"
+              />
+              <div class="error-message" *ngIf="isFieldInvalid('address')">
+                Street address is required
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group half-width">
+                <label for="city">City</label>
+                <input
+                  type="text"
+                  id="city"
+                  formControlName="city"
+                  placeholder="Enter your city"
+                  class="form-control"
+                />
+                <div class="error-message" *ngIf="isFieldInvalid('city')">
+                  City is required
+                </div>
+              </div>
+
+              <div class="form-group half-width">
+                <label for="state">State/Province</label>
+                <input
+                  type="text"
+                  id="state"
+                  formControlName="state"
+                  placeholder="Enter your state/province"
+                  class="form-control"
+                />
+                <div class="error-message" *ngIf="isFieldInvalid('state')">
+                  State/Province is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group half-width">
+                <label for="zipCode">Postal/Zip Code</label>
+                <input
+                  type="text"
+                  id="zipCode"
+                  formControlName="zipCode"
+                  placeholder="Enter your zip code"
+                  class="form-control"
+                />
+                <div class="error-message" *ngIf="isFieldInvalid('zipCode')">
+                  Zip code is required
+                </div>
+              </div>
+
+              <div class="form-group half-width">
+                <label for="country">Country</label>
+                <select
+                  id="country"
+                  formControlName="country"
+                  class="form-control"
+                >
+                  <option value="" disabled selected>
+                    Select your country
+                  </option>
+                  <option value="Egypt">Egypt</option>
+                  <option value="UAE">United Arab Emirates</option>
+                  <option value="Saudi Arabia">Saudi Arabia</option>
+                  <option value="Kuwait">Kuwait</option>
+                  <option value="Qatar">Qatar</option>
+                </select>
+                <div class="error-message" *ngIf="isFieldInvalid('country')">
+                  Country is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="notes">Delivery Notes (Optional)</label>
+              <textarea
+                id="notes"
+                formControlName="notes"
+                placeholder="Any special instructions for delivery"
+                class="form-control textarea"
+                rows="3"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Section: Order Summary -->
+      <div class="order-summary-container">
+        <div class="order-summary">
+          <h2 class="summary-title">Order Summary</h2>
+
+          <div class="product-preview" *ngFor="let item of cartItems">
+            <div class="product-image">
+              <img
+                [src]="'../../assets/img/' + item.product.image"
+                alt="{{ item.product.name }}"
+              />
+            </div>
+            <div class="product-details">
+              <h3 class="product-name">{{ item.product.name }}</h3>
+              <p class="product-price">
+                {{ item.product.price_after_sale || item.product.price }} EGP
+              </p>
+              <p class="product-quantity">Quantity: {{ item.quantity }}</p>
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row">
+            <span class="summary-label">Subtotal:</span>
+            <span class="summary-value">{{ getSubtotal() }} EGP</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Shipping:</span>
+            <span class="summary-value">50 EGP</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Tax:</span>
+            <span class="summary-value">0 EGP</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row total-row">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value">{{ getTotal() }} EGP</span>
+          </div>
+
+          <button
+            class="continue-btn"
+            [disabled]="shippingForm.invalid"
+            (click)="onSubmit()"
+          >
+            Continue to Payment
+          </button>
+
+          <button class="back-btn" (click)="goBack()">Back to Cart</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <app-footer></app-footer>
+</div>

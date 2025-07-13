@@ -1,11 +1,11 @@
-<!-- header.component.html -->
 <header class="header">
   <!-- Logo on the left -->
-  <div class="logo"><span class="logoico"></span>Medifit</div>
+  <div (click)="home()" class="logo"><span class="logoico"></span>Medifit</div>
 
   <!-- Navigation in the center -->
   <nav class="nav" [ngClass]="{ open: isMobileMenuOpen }">
     <a routerLink="/home" class="nav-link">Home</a>
+    <a routerLink="/dashboard" class="nav-link" *ngIf="isLoggedIn && (userRole.toLowerCase() === 'admin' || userRole.toLowerCase() === 'supervisor')">Dashboard</a>
     <a routerLink="/home2" class="nav-link">Shop</a>
     <div class="dropdown">
       <div class="nav-link dropdown-toggle" (click)="toggleDropdown($event)">
@@ -26,12 +26,12 @@
         </span>
       </div>
       <div class="dropdown-menu" [ngClass]="{ show: isDropdownOpen }">
-        <a href="#" class="dropdown-item">Lab equipment</a>
-        <a href="#" class="dropdown-item">Health care</a>
-        <a href="#" class="dropdown-item">Medicine</a>
-        <a href="#" class="dropdown-item">Fitness</a>
-        <a href="#" class="dropdown-item">medical devices</a>
-        <a href="#" class="dropdown-item">Beauty care</a>
+        <a class="dropdown-item" (click)="navigateToFilter('Lab equipment')">Lab equipment</a>
+        <a class="dropdown-item" (click)="navigateToFilter('Health care')">Health care</a>
+        <a class="dropdown-item" (click)="navigateToFilter('Medicine')">Medicine</a>
+        <a class="dropdown-item" (click)="navigateToFilter('Fitness')">Fitness</a>
+        <a class="dropdown-item" (click)="navigateToFilter('Medical devices')">Medical devices</a>
+        <a class="dropdown-item" (click)="navigateToFilter('Beauty care')">Beauty care</a>
       </div>
     </div>
     <a routerLink="/about" class="nav-link">About</a>
@@ -52,9 +52,15 @@
 
     <!-- Mobile user info and logout -->
     <div class="mobile-user-info" *ngIf="isLoggedIn">
-      <span class="username">{{ username }}</span>
+      <span
+        class="username"
+        [class.admin]="userRole.toLowerCase() === 'admin'"
+        (click)="navigateToAdmin()"
+      >
+        {{ username }}
+      </span>
       <div class="cart-container mobile-cart">
-        <a href="#" class="cart-icon">
+        <a (click)="navigateToCart()" class="cart-icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -72,7 +78,7 @@
               d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
             ></path>
           </svg>
-          <span class="cart-count" *ngIf="cartItemCount > 0">{{
+          <span class="cart-count" [ngClass]="{'empty': cartItemCount === 0}">{{
             cartItemCount
           }}</span>
         </a>
@@ -110,13 +116,19 @@
       <!-- Show when user is logged in (desktop version) -->
       <div class="user-info" *ngIf="isLoggedIn">
         <div class="user-dropdown">
-          <span class="username">{{ username }}</span>
+          <span
+            class="username"
+            [class.admin]="userRole.toLowerCase() === 'admin'"
+            (click)="navigateToAdmin()"
+          >
+            {{ username }}
+          </span>
           <button class="logout-icon" (click)="logout()" title="Logout">
             <i class="fas fa-sign-out-alt"></i>
           </button>
         </div>
         <div class="cart-container">
-          <a href="#" class="cart-icon">
+          <a (click)="navigateToCart()" class="cart-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -134,7 +146,7 @@
                 d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
               ></path>
             </svg>
-            <span class="cart-count" *ngIf="cartItemCount > 0">{{
+            <span class="cart-count" [ngClass]="{'empty': cartItemCount === 0}">{{
               cartItemCount
             }}</span>
           </a>

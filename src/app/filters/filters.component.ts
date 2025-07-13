@@ -1,23 +1,26 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { ApiuserService } from '../apiuser.service';
-import { Route, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
-  styleUrl: './filters.component.css'
+  styleUrl: './filters.component.css',
 })
 export class FiltersComponent implements OnInit {
-  headingText: string = 'Explore Our Exclusive Furniture Collection';
-  numberofproduct: string = '0'
-  productshowing:string = "0"
-  Price : string = ''
-  size : string = ''
-  rating : string = ''
+  headingText: string = 'Explore Our Medical Products Collection';
+  numberofproduct: string = '0';
+  productshowing: string = '0';
+  Price: string = '';
+  rating: string = '';
   isArrowReversed = false;
   showFormCheck = true;
-  isArrowReversed2 = false;
-  showFormCheck2 = true;
   isArrowReversed3 = false;
   showFormCheck3 = true;
   isFilterVisible: boolean = false;
@@ -27,18 +30,16 @@ export class FiltersComponent implements OnInit {
   dropdownOptions = [
     { label: 'Option 1', value: 1 },
     { label: 'Option 2', value: 2 },
-    { label: 'Option 3', value: 3 }
+    { label: 'Option 3', value: 3 },
   ];
   selectedProduct: string = '';
   selectedProduct2: string = '';
-  selectedProduct3: string = '';
   selectedProduct4: string = '';
   selectedStarsHtml: string = '';
   clickCount: number = 0;
   products: (string | null)[] = [
     this.selectedProduct,
     this.selectedProduct2,
-    this.selectedProduct3,
     this.selectedProduct4,
   ];
   lastIndexToRemove: number = this.products.length - 1;
@@ -48,8 +49,8 @@ export class FiltersComponent implements OnInit {
   currentPage: number = 1;
   productsPerPage: number = 9;
   filteredProducts: any[] = [];
+  isLoading: boolean = true;
   noProductsFound: boolean = false;
-
 
   selectProduct(product: string) {
     this.selectedProduct = product;
@@ -62,43 +63,38 @@ export class FiltersComponent implements OnInit {
     this.filterProducts();
   }
 
-  selectProduct3(product3: string) {
-    console.log('Selected size for filtering:', product3);
-    this.selectedProduct3 = product3;
-    this.filterProducts();
-  }
-
   selectProduct4(product4: number) {
-
     this.selectedProduct4 = product4.toString(); // Convert to string
     this.generateStarIcons(parseInt(this.selectedProduct4), 5); // Assuming total stars are 5
     this.filterProducts();
-}
+  }
 
   generateStarIcons(rating: number, totalStars: number) {
     this.selectedStarsHtml = '';
     for (let i = 1; i <= totalStars; i++) {
       if (i <= rating) {
         this.selectedStarsHtml += `<i class="fa-solid fa-star"></i>`;
-       }else {
+      } else {
         this.selectedStarsHtml += `<i class="fa-regular fa-star"></i>`; // Empty star for ratings below
+      }
     }
-    }
-    // return this.selectedStarsHtml;
   }
 
   generateStarIconsproduct(rating: number, totalStars: number): string {
+    if (typeof rating === 'string') {
+      rating = parseInt(rating, 10);
+    }
+
     let starsHtml = '';
     for (let i = 1; i <= totalStars; i++) {
       if (i <= rating) {
         starsHtml += `<i class="fa-solid fa-star star"></i>`;
-      }else {
+      } else {
         starsHtml += `<i class="fa-regular fa-star star"></i>`;
-    }
+      }
     }
     return starsHtml;
   }
-
 
   onMouseOver(event: any) {
     if (event.target.tagName === 'OPTION') {
@@ -114,34 +110,30 @@ export class FiltersComponent implements OnInit {
 
   toggleTag() {
     if (this.lastIndexToRemove >= 0) {
-        if (this.selectedProduct4) {
-            this.products.splice(this.lastIndexToRemove, 1);
-            this.selectedProduct4 = '';
-            this.filterProducts();
-        } else if (this.selectedProduct3) {
-            this.products.splice(this.lastIndexToRemove, 1);
-            this.selectedProduct3 = '';
-            this.filterProducts();
-        } else if (this.selectedProduct2) {
-            this.products.splice(this.lastIndexToRemove, 1);
-            this.selectedProduct2 = '';
-            this.filterProducts();
-        } else if (this.selectedProduct) {
-            this.products.splice(this.lastIndexToRemove, 1);
-            this.selectedProduct = '';
-            this.filterProducts();
-        } else {
-            this.products.splice(this.lastIndexToRemove, 1);
-            this.filterProducts();
-        }
+      if (this.selectedProduct4) {
+        this.products.splice(this.lastIndexToRemove, 1);
+        this.rating = '';
+        this.selectedProduct4 = '';
+        this.filterProducts();
+      } else if (this.selectedProduct2) {
+        this.products.splice(this.lastIndexToRemove, 1);
+        this.Price = '';
+        this.selectedProduct2 = '';
+        this.filterProducts();
+      } else if (this.selectedProduct) {
+        this.products.splice(this.lastIndexToRemove, 1);
+        this.selectedProduct = '';
+        this.filterProducts();
+      } else {
+        this.products.splice(this.lastIndexToRemove, 1);
+        this.filterProducts();
+      }
     }
-}
+  }
 
-
-    movepaymethod(product: any) {
-      // Navigate to the product details page and pass the product data
-      this.router.navigate(['/productdetails'], { state: { product } });
-    }
+  movepaymethod(product: any) {
+    this.router.navigate(['/productdetails'], { state: { product } });
+  }
 
   toggleDropdown() {
     this.dropdownActive = !this.dropdownActive;
@@ -160,30 +152,67 @@ export class FiltersComponent implements OnInit {
     this.dropdownActive = false;
   }
 
-
-  constructor(private ApiuserService : ApiuserService ,private renderer: Renderer2, private el: ElementRef , private router : Router) { }
+  constructor(
+    private ApiuserService: ApiuserService,
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
     this.updateHeadingText();
+
+    window.scrollTo(0, 0);
+
+    this.showFormCheck = true;
+    this.showFormCheck3 = true;
+
     document.addEventListener('click', this.closeDropdown.bind(this));
+
     this.fetchProducts();
+
+    // this.route.queryParams.subscribe((params) => {
+    //   const category = params['category'];
+    //   if (category) {
+    //     setTimeout(() => {
+    //       this.selectedProduct = category;
+    //       this.filterProducts();
+    //       console.log(
+    //         'تم تطبيق الفلتر:',
+    //         category,
+    //         'المنتجات المتبقية:',
+    //         this.filteredProducts.length
+    //       );
+    //     }, 500);
+    //   }
+    // });
   }
 
   fetchProducts(): void {
+    this.isLoading = true;
     this.ApiuserService.getAllproducts().subscribe(
       (data) => {
         console.log('Fetched products:', data);
-        this.allproduct = data ; // Ensure it's an array
-        // console.log(da);
-
+        this.allproduct = data; // Ensure it's an array
         this.filteredProducts = this.allproduct;
-        this.numberofproduct = this.addproducts.length.toString();
+        this.numberofproduct = this.allproduct.length.toString();
         this.setPagedProducts();
         this.updateProductShowing();
+        this.isLoading = false;
+        this.route.queryParams.subscribe((params) => {
+          const category = params['category'];
+          if (category) {
+            this.selectedProduct = category;
+            this.filterProducts();
+          }
+        });
       },
       (error) => {
-        console.error("Error fetching data", error);
+        console.error('Error fetching data', error);
+        this.isLoading = false; // انتهاء التحميل حتى في حالة الخطأ
+        this.noProductsFound = true;
       }
     );
   }
@@ -195,38 +224,59 @@ export class FiltersComponent implements OnInit {
     this.updateProductShowing();
   }
 
+  formatPrice(price: number | string): string {
+    if (price === null || price === undefined) return '0';
+
+    // Convert to number if it's a string
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+
+    // Format with commas for thousands
+    return numPrice.toLocaleString('en-US');
+  }
+
   changePage(page: number): void {
     this.currentPage = page;
+    window.scrollTo(0, 0);
     this.setPagedProducts();
   }
 
   updateProductShowing(): void {
     const startIndex = (this.currentPage - 1) * this.productsPerPage + 1;
-    const endIndex = Math.min(startIndex + this.productsPerPage - 1, this.filteredProducts.length);
+    const endIndex = Math.min(
+      startIndex + this.productsPerPage - 1,
+      this.filteredProducts.length
+    );
     this.productshowing = `${endIndex}`;
-    this.numberofproduct = `${this.filteredProducts.length}`
+    this.numberofproduct = `${this.filteredProducts.length}`;
   }
 
   goToPreviousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
+      window.scrollTo(0, 0);
       this.setPagedProducts();
     }
   }
 
   goToNextPage(): void {
-    const totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
+    const totalPages = Math.ceil(
+      this.filteredProducts.length / this.productsPerPage
+    );
     if (this.currentPage < totalPages) {
       this.currentPage++;
+      window.scrollTo(0, 0);
       this.setPagedProducts();
     }
   }
 
   getTotalPages(): number[] {
-    const totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
-    return Array(totalPages).fill(0).map((_, i) => i + 1); // Generates [1, 2, 3, ..., totalPages]
+    const totalPages = Math.ceil(
+      this.filteredProducts.length / this.productsPerPage
+    );
+    return Array(totalPages)
+      .fill(0)
+      .map((_, i) => i + 1); // Generates [1, 2, 3, ..., totalPages]
   }
-
 
   // Listen for window resize events
   @HostListener('window:resize', ['$event'])
@@ -249,15 +299,22 @@ export class FiltersComponent implements OnInit {
     }
   }
 
-
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollPosition = window.pageYOffset;
 
     if (scrollPosition > 100) {
-      this.renderer.setStyle(this.el.nativeElement.ownerDocument.body, 'backgroundColor', '#CBCDC2'); // Change background color
+      this.renderer.setStyle(
+        this.el.nativeElement.ownerDocument.body,
+        'backgroundColor',
+        '#CBCDC2'
+      ); // Change background color
     } else {
-      this.renderer.setStyle(this.el.nativeElement.ownerDocument.body, 'backgroundColor', '#fff'); // Reset to original color
+      this.renderer.setStyle(
+        this.el.nativeElement.ownerDocument.body,
+        'backgroundColor',
+        '#fff'
+      ); // Reset to original color
     }
   }
 
@@ -265,113 +322,242 @@ export class FiltersComponent implements OnInit {
     window.location.reload();
   }
 
-  toggleArrow() {
-    this.isArrowReversed = !this.isArrowReversed;
+  toggleArrow(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     this.showFormCheck = !this.showFormCheck;
+    this.isArrowReversed = !this.isArrowReversed;
+
     const arrowIcon = document.getElementById('arrowIcon');
-
-    if (this.isArrowReversed) {
-      arrowIcon?.classList.add('rotate');
-    } else {
-      arrowIcon?.classList.remove('rotate');
+    if (arrowIcon) {
+      if (this.isArrowReversed) {
+        arrowIcon.classList.add('rotate');
+      } else {
+        arrowIcon.classList.remove('rotate');
+      }
     }
+
+    console.log('Price filter visibility:', this.showFormCheck);
   }
 
-  toggleArrow2() {
-    this.isArrowReversed2 = !this.isArrowReversed2;
-    this.showFormCheck2 = !this.showFormCheck2;
-    const arrowIcon2 = document.getElementById('arrowIcon2');
-
-    if (this.isArrowReversed2) {
-      arrowIcon2?.classList.add('rotate');
-    } else {
-      arrowIcon2?.classList.remove('rotate');
+  toggleArrow3(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
     }
-  }
 
-  toggleArrow3() {
-    this.isArrowReversed3 = !this.isArrowReversed3;
     this.showFormCheck3 = !this.showFormCheck3;
-    const arrowIcon3 = document.getElementById('arrowIcon3');
+    this.isArrowReversed3 = !this.isArrowReversed3;
 
-    if (this.isArrowReversed3) {
-      arrowIcon3?.classList.add('rotate');
-    } else {
-      arrowIcon3?.classList.remove('rotate');
+    const arrowIcon3 = document.getElementById('arrowIcon3');
+    if (arrowIcon3) {
+      if (this.isArrowReversed3) {
+        arrowIcon3.classList.add('rotate');
+      } else {
+        arrowIcon3.classList.remove('rotate');
+      }
     }
+
+    // console.log('Rating filter visibility:', this.showFormCheck3);
   }
 
   updateHeadingText(): void {
     if (window.innerWidth <= 768) {
-      this.headingText = 'Collections';
+      this.headingText = 'Medical Products';
     } else {
-      this.headingText = 'Explore Our Exclusive Furniture Collection';
+      this.headingText = 'Explore Our Medical Products Collection';
     }
   }
 
+  // Add to your component class
+  parseInt(value: string | number): number {
+    if (typeof value === 'string') {
+      return parseInt(value, 10);
+    }
+    return value as number;
+  }
+
+  getVisiblePages(): any[] {
+    const totalPages = Math.ceil(
+      this.filteredProducts.length / this.productsPerPage
+    );
+
+    // Maximum number of page buttons to show
+    const maxPagesToShow = 5;
+
+    if (totalPages <= maxPagesToShow) {
+      // If we have few pages, show all
+      return Array(totalPages)
+        .fill(0)
+        .map((_, i) => ({ type: 'page', value: i + 1 }));
+    }
+
+    let visiblePages = [];
+
+    // Always show first page
+    visiblePages.push({ type: 'page', value: 1 });
+
+    // Calculate range around current page
+    const rangeStart = Math.max(2, this.currentPage - 1);
+    const rangeEnd = Math.min(totalPages - 1, this.currentPage + 1);
+
+    // Add ellipsis if needed before range
+    if (rangeStart > 2) {
+      visiblePages.push({ type: 'ellipsis', value: '...' });
+    }
+
+    // Add pages in the middle range
+    for (let i = rangeStart; i <= rangeEnd; i++) {
+      visiblePages.push({ type: 'page', value: i });
+    }
+
+    // Add ellipsis if needed after range
+    if (rangeEnd < totalPages - 1) {
+      visiblePages.push({ type: 'ellipsis', value: '...' });
+    }
+
+    // Always show last page
+    visiblePages.push({ type: 'page', value: totalPages });
+
+    return visiblePages;
+  }
+
+  // Add these methods to your component
+
+  getTotalPagesCount(): number {
+    return Math.ceil(this.filteredProducts.length / this.productsPerPage);
+  }
+
+  getMiddlePages(): number[] {
+    const totalPages = this.getTotalPagesCount();
+    const maxPagesToShow = 5;
+
+    if (totalPages <= maxPagesToShow) {
+      // If we have few pages, return all except first and last if they're shown separately
+      return Array.from({ length: totalPages - 2 }, (_, i) => i + 2);
+    }
+
+    // Calculate range around current page
+    const rangeStart = Math.max(2, this.currentPage - 1);
+    const rangeEnd = Math.min(totalPages - 1, this.currentPage + 1);
+
+    // Return pages in the middle range
+    return Array.from(
+      { length: rangeEnd - rangeStart + 1 },
+      (_, i) => i + rangeStart
+    );
+  }
+
+  shouldShowFirstPage(): boolean {
+    return this.getTotalPagesCount() > 0;
+  }
+
+  shouldShowLastPage(): boolean {
+    const totalPages = this.getTotalPagesCount();
+    return totalPages > 1;
+  }
+
+  shouldShowFirstEllipsis(): boolean {
+    const middlePages = this.getMiddlePages();
+    return middlePages.length > 0 && middlePages[0] > 2;
+  }
+
+  shouldShowLastEllipsis(): boolean {
+    const middlePages = this.getMiddlePages();
+    const totalPages = this.getTotalPagesCount();
+    return (
+      middlePages.length > 0 &&
+      middlePages[middlePages.length - 1] < totalPages - 1
+    );
+  }
+
+  // Agregar este método al componente FiltersComponent
+
+  removeTag(tagType: string): void {
+    switch (tagType) {
+      case 'product':
+        this.selectedProduct = '';
+        break;
+      case 'price':
+        this.selectedProduct2 = '';
+        this.Price = '';
+        break;
+      case 'rating':
+        this.selectedProduct4 = '';
+        this.rating = '';
+        break;
+    }
+    this.filterProducts();
+  }
 
   // Combined filter logic
   filterProducts() {
     // Start with all products
-    let filteredProducts = this.allproduct;
+    let filteredProducts = [...this.allproduct];
 
     if (this.selectedProduct === 'All') {
-      filteredProducts = this.allproduct;
+      filteredProducts = [...this.allproduct];
+      // console.log('تم اختيار "الكل"، عدد المنتجات:', filteredProducts.length);
     }
 
     // Apply product type filter
     if (this.selectedProduct && this.selectedProduct !== 'All') {
+      console.log('تطبيق فلتر النوع:', this.selectedProduct);
       filteredProducts = filteredProducts.filter(
-        product => product.type === this.selectedProduct
+        (product) => product.type === this.selectedProduct
       );
+      // console.log('بعد فلتر النوع، المنتجات المتبقية:', filteredProducts.length);
     }
 
     // Apply price filter
-    if (this.selectedProduct2) { // If a price range is selected
+    if (this.selectedProduct2) {
+      // If a price range is selected
       const priceLimits = this.getPriceLimits(this.selectedProduct2);
-      filteredProducts = filteredProducts.filter(
-        product => product.price > priceLimits.min && product.price < priceLimits.max
-      );
+      filteredProducts = filteredProducts.filter((product) => {
+        // Use price_after_sale if available, otherwise use price
+        const effectivePrice = product.price_after_sale || product.price;
+        return (
+          effectivePrice > priceLimits.min && effectivePrice < priceLimits.max
+        );
+      });
     }
 
-    // Apply size filter
-    if (this.selectedProduct3) { // If a size is selected
-      filteredProducts = filteredProducts.filter(
-        product => product.size === this.selectedProduct3
-      );
-    }
-
-    if (this.selectedProduct4) { // If a rating is selected
+    if (this.selectedProduct4) {
+      // If a rating is selected
       const ratingLimit = parseInt(this.selectedProduct4); // Convert to number
       filteredProducts = filteredProducts.filter(
-        product => product.rating == ratingLimit // Assuming product.rating exists
+        (product) => product.rating == ratingLimit // Assuming product.rating exists
       );
-  }
+    }
 
-  switch (this.selectedOption) {
-    case 'price':
-      filteredProducts = filteredProducts.sort((a, b) => a.price - b.price); // Sort by price, low to high
-      break;
-    case 'size':
-      filteredProducts = filteredProducts.sort((a, b) => a.size - b.size); // Sort by size, low to high
-      break;
-    case 'rating':
-      filteredProducts = filteredProducts.sort((a, b) => a.rating - b.rating); // Sort by rating, low to high
-      break;
-    default:
-      break;
-  }
+    switch (this.selectedOption) {
+      case 'price':
+        filteredProducts = filteredProducts.sort((a, b) => {
+          // Use price_after_sale if available, otherwise use price
+          const priceA = a.price_after_sale || a.price;
+          const priceB = b.price_after_sale || b.price;
+          return priceA - priceB; // Sort by effective price, low to high
+        });
+        break;
+      case 'rating':
+        filteredProducts = filteredProducts.sort((a, b) => b.rating - a.rating); // Sort by rating, high to low
+        break;
+      default:
+        break;
+    }
 
-
-  if (filteredProducts.length === 0) {
-    this.noProductsFound = true;  // Set flag if no products
-  } else {
-    this.noProductsFound = false; // Reset flag if products found
-  }
+    if (filteredProducts.length === 0) {
+      this.noProductsFound = true; // Set flag if no products
+    } else {
+      this.noProductsFound = false; // Reset flag if products found
+    }
 
     // Update filteredProducts and UI
     this.filteredProducts = filteredProducts;
-    console.log('Filtered products:', this.filteredProducts);
+    // console.log('Filtered products:', this.filteredProducts);
     this.productshowing = String(this.filteredProducts.length);
 
     // Reset pagination after filtering
@@ -379,15 +565,22 @@ export class FiltersComponent implements OnInit {
     this.setPagedProducts();
   }
 
+  isOnSale(product: any): boolean {
+    return (
+      product.sale_percentage > 0 &&
+      product.price_after_sale !== undefined &&
+      product.price_after_sale < product.price
+    );
+  }
 
-  getPriceLimits(product2: string): { min: number, max: number } {
+  getPriceLimits(product2: string): { min: number; max: number } {
     switch (product2) {
-      case 'Under 500 EGP':
-        return { min: 0, max: 500 };
-      case '500 EGP to 1000 EGP':
-        return { min: 500, max: 1000 };
-      case '1000 EGP to 3000 EGP':
-        return { min: 1000, max: 3000 };
+      case 'Under 100 EGP':
+        return { min: 0, max: 100 };
+      case '100 EGP to 500 EGP':
+        return { min: 100, max: 500 };
+      case '500 EGP to 3000 EGP':
+        return { min: 500, max: 3000 };
       case '3000 EGP to 6000 EGP':
         return { min: 3000, max: 6000 };
       case 'Over 6000 EGP':
@@ -397,4 +590,3 @@ export class FiltersComponent implements OnInit {
     }
   }
 }
-

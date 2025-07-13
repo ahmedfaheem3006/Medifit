@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +31,12 @@ import { Section2HomeComponent } from './section2-home/section2-home.component';
 import { Section3HomeComponent } from './section3-home/section3-home.component';
 import { Section4HomeComponent } from './section4-home/section4-home.component';
 import { VerificationComponent } from './verification/verification.component';
+import { ProductdetailsComponent } from './productdetails/productdetails.component';
+import { PaymentmethodComponent } from './paymentmethod/paymentmethod.component';
+import { CardComponent } from './card/card.component';
+import { ShippingaddressComponent } from './shippingaddress/shippingaddress.component';
+import { UserordersComponent } from './userorders/userorders.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +56,6 @@ import { VerificationComponent } from './verification/verification.component';
     LoginComponent,
     NewPasswordComponent,
     RegisterComponent,
-    Sec1ContactComponent,
     Sec1Home2Component,
     Sec2ContactComponent,
     Sec3ContactComponent,
@@ -60,13 +65,21 @@ import { VerificationComponent } from './verification/verification.component';
     Section2HomeComponent,
     Section3HomeComponent,
     Section4HomeComponent,
-    VerificationComponent
+    VerificationComponent,
+    ProductdetailsComponent,
+    PaymentmethodComponent,
+    CardComponent,
+    ShippingaddressComponent,
+    UserordersComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    Sec1ContactComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

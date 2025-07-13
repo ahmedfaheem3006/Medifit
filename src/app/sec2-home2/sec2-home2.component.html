@@ -9,7 +9,7 @@
           Our store offers a comprehensive range of pharmaceuticals, health and wellness products, and medical supplies to meet the diverse needs of our community.
         </p>
 
-        <a href="#" class="story-button">
+        <a routerLink="/about" class="story-button">
           <span>Our story</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -63,7 +63,7 @@
         <div class="header-content">
           <h2 class="collection-title">Discover our collection</h2>
           <p class="collection-subtitle">Our medical store offers trusted products easy navigation, and fast shipping</p>
-          <a href="#" class="view-all-btn">
+          <a routerLink="/filters" class="view-all-btn">
             View all products
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -77,7 +77,7 @@
         <div class="product-image-container">
           <img src="../../assets/med1.png" alt="Hair tablets" class="product-image">
           <div class="shop-overlay">
-            <button class="shop-now-btn">
+            <button class="shop-now-btn" (click)="onclick()">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="cart-icon">
                 <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
               </svg>
@@ -87,8 +87,8 @@
         </div>
         <h3 class="product-name">Hair tablets</h3>
         <div class="product-price">
-          <span class="current-price">$19.00 USD</span>
-          <span class="original-price">$25.00 USD</span>
+          <span class="current-price">912 EGP</span>
+          <span class="original-price">1,200 EGP</span>
         </div>
       </div>
 
@@ -97,7 +97,7 @@
         <div class="product-image-container">
           <img src="../../assets/med2.png" alt="Pressure measuring" class="product-image">
           <div class="shop-overlay">
-            <button class="shop-now-btn">
+            <button class="shop-now-btn" (click)="onclick()">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="cart-icon">
                 <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
               </svg>
@@ -107,7 +107,7 @@
         </div>
         <h3 class="product-name">Pressure measuring</h3>
         <div class="product-price">
-          <span class="current-price">$25.00 USD</span>
+          <span class="current-price">1,200 EGP</span>
         </div>
       </div>
 
@@ -116,7 +116,7 @@
         <div class="product-image-container">
           <img src="../../assets/med3.png" alt="Diving mask" class="product-image">
           <div class="shop-overlay">
-            <button class="shop-now-btn">
+            <button class="shop-now-btn" (click)="onclick()">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="cart-icon">
                 <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
               </svg>
@@ -126,7 +126,7 @@
         </div>
         <h3 class="product-name">Diving mask</h3>
         <div class="product-price">
-          <span class="current-price">$40.00 USD</span>
+          <span class="current-price">1,920 EGP</span>
         </div>
       </div>
 
@@ -135,7 +135,7 @@
         <div class="product-image-container">
           <img src="../../assets/med4.png" alt="Temperature gun" class="product-image">
           <div class="shop-overlay">
-            <button class="shop-now-btn">
+            <button class="shop-now-btn" (click)="onclick()">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="cart-icon">
                 <path d="M7 18C5.9 18 5.01 18.9 5.01 20C5.01 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM17 18C15.9 18 15.01 18.9 15.01 20C15.01 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18ZM7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L21.16 5.96C21.26 5.79 21.31 5.61 21.31 5.42C21.31 4.94 20.93 4.56 20.45 4.56H5.7L4.88 2.56H2V4.56H4L7.6 13.08L6.25 15.25C5.88 15.9 6.37 16.75 7.17 14.75ZM7.35 6.56H18.94L16.05 11H8.53L7.35 6.56Z" fill="#503217"/>
               </svg>
@@ -145,14 +145,14 @@
         </div>
         <h3 class="product-name">Temperature gun</h3>
         <div class="product-price">
-          <span class="current-price">$20.00 USD</span>
-          <span class="original-price">$25.00 USD</span>
+          <span class="current-price">960 EGP</span>
+          <span class="original-price">1,200 EGP</span>
         </div>
       </div>
 
       <!-- Product 5 -->
       <div class="product-item">
-        <div class="product-image-container">
+        <div class="product-image-container" (click)="onclick()">
           <img src="../../assets/med5.png" alt="Nebulizer mask" class="product-image">
           <div class="shop-overlay">
             <button class="shop-now-btn">
@@ -165,7 +165,7 @@
         </div>
         <h3 class="product-name">Nebulizer mask</h3>
         <div class="product-price">
-          <span class="current-price">$15.00 USD</span>
+          <span class="current-price">720 EGP</span>
         </div>
       </div>
     </div>

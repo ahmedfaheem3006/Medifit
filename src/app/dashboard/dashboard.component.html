@@ -1,0 +1,278 @@
+<div class="custom-bg">
+  <div class="container">
+    <app-header></app-header>
+    <h1 class="tx1 mb-4">Admin Dashboard</h1>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">Loading dashboard data...</p>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div *ngIf="!isLoading">
+      <!-- Stats Cards -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-4 col-sm-6">
+          <div class="boxz stats-card">
+            <div class="stats-icon"><i class="fas fa-users"></i></div>
+            <h5 class="h5">Total Users</h5>
+            <p class="tx2">{{ stats.totalUsers | number }}</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="boxz stats-card">
+            <div class="stats-icon"><i class="fas fa-shopping-cart"></i></div>
+            <h5 class="h5">Total Purchases</h5>
+            <p class="tx2">{{ stats.totalPurchases | number }}</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="boxz stats-card">
+            <div class="stats-icon"><i class="fas fa-dollar-sign"></i></div>
+            <h5 class="h5">Total Revenue</h5>
+            <p class="tx2">{{ stats.totalRevenue | number : "1.2-2" }} EGP</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="row mb-4">
+        <div class="col-12 text-end">
+          <button class="btns" (click)="refreshData()">
+            <i class="fas fa-sync-alt me-2"></i>Refresh Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Sales Trends -->
+      <div class="boxz my-4">
+        <h5 class="h5 mb-4">
+          <i class="fas fa-chart-line me-2"></i>Sales Trends
+        </h5>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="chart-container">
+              <h6 class="form-label">Daily Sales (Last 7 Days)</h6>
+              <div class="chart-wrapper">
+                <canvas id="dailySalesChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="chart-container">
+              <h6 class="form-label">Monthly Sales</h6>
+              <div class="chart-wrapper">
+                <canvas id="monthlySalesChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="chart-container">
+              <h6 class="form-label">Yearly Sales</h6>
+              <div class="chart-wrapper">
+                <canvas id="yearlySalesChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Products Section -->
+      <div class="boxz my-4">
+        <h5 class="h5 mb-4">
+          <i class="fas fa-star me-2"></i>Top 5 Best-Selling Products
+        </h5>
+        <div class="row g-3" *ngIf="topProducts.length > 0; else noProducts">
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col-12"
+            *ngFor="let product of topProducts; let i = index"
+          >
+            <div class="product-card text-center">
+              <div class="product-rank-badge">#{{ i + 1 }}</div>
+
+              <!-- Product Info -->
+              <div class="product-info">
+                <h6 class="product-name" [title]="product.name">
+                  {{ product.name }}
+                </h6>
+                <div class="product-stats">
+                  <div class="sales-count">
+                    <i class="fas fa-shopping-cart me-2"></i>
+                    <span class="sales-number">{{ product.salesCount }}</span> sold
+                  </div>
+                  <div class="product-price" *ngIf="product.price">
+                    <i class="fas fa-tag me-2"></i>
+                    {{ product.price | number : "1.2-2" }} EGP
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noProducts>
+          <div class="empty-state text-center py-4">
+            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+            <p class="text-muted">No products data available</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Pending Orders Section -->
+      <div class="boxz my-4">
+        <h5 class="h5 mb-4">
+          <i class="fas fa-hourglass-half me-2"></i>
+          Pending Order Requests
+          <span class="badge bg-warning text-dark ms-2">{{
+            pendingOrders.length
+          }}</span>
+        </h5>
+        <div *ngIf="pendingOrders.length > 0; else noPendingOrders">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th class="form-label">Order ID</th>
+                  <th class="form-label">Customer</th>
+                  <th class="form-label">Items</th>
+                  <th class="form-label">Total</th>
+                  <th class="form-label">Date</th>
+                  <th class="form-label text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of pendingOrders" class="order-row">
+                  <td class="fw-bold text-primary">{{ order.orderId }}</td>
+                  <td>{{ getUserName(order) }}</td>
+                  <td>
+                    <span
+                      class="text-truncate d-inline-block"
+                      style="max-width: 200px"
+                      [title]="getOrderItems(order)"
+                    >
+                      {{ getOrderItems(order) }}
+                    </span>
+                  </td>
+                  <td class="fw-bold">
+                    {{ order.totalPrice | number : "1.2-2" }} EGP
+                  </td>
+                  <td>{{ order.orderDate | date : "short" }}</td>
+                  <td class="text-center">
+                    <div class="btn-group" role="group">
+                      <button
+                        class="btns btn-sm me-1"
+                        (click)="approveOrder(order.orderId)"
+                        title="Approve Order"
+                      >
+                        <i class="fas fa-check me-1"></i>Approve
+                      </button>
+                      <button
+                        class="btns btn-reject btn-sm"
+                        (click)="rejectOrder(order.orderId)"
+                        title="Reject Order"
+                      >
+                        <i class="fas fa-times me-1"></i>Reject
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noPendingOrders>
+          <div class="empty-state text-center py-4">
+            <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+            <p class="text-muted">No pending orders at the moment</p>
+            <small class="text-muted">All orders have been processed</small>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Recent Completed Orders -->
+      <div class="boxz my-4">
+        <h5 class="h5 mb-4">
+          <i class="fas fa-check-double me-2"></i>
+          Recent Completed Orders
+          <span class="badge bg-success ms-2">{{ stats.completedOrders }}</span>
+        </h5>
+        <div *ngIf="completedOrders.length > 0; else noCompletedOrders">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th class="form-label">Order ID</th>
+                  <th class="form-label">Customer</th>
+                  <th class="form-label">Total</th>
+                  <th class="form-label">Completed Date</th>
+                  <th class="form-label">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let order of completedOrders.slice(0, 10)"
+                  class="completed-order-row"
+                >
+                  <td class="fw-bold text-success">{{ order.orderId }}</td>
+                  <td>
+                    <div>
+                      <strong>{{ order.user?.username || "Unknown" }}</strong>
+                      <br />
+                      <small class="text-muted">{{ order.user?.email }}</small>
+                    </div>
+                  </td>
+                  <td class="fw-bold">
+                    {{ order.totalPrice | number : "1.2-2" }} EGP
+                  </td>
+                  <td>{{ order.completedDate | date : "short" }}</td>
+                  <td>
+                    <span class="badge bg-success">
+                      <i class="fas fa-check me-1"></i>Completed
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noCompletedOrders>
+          <div class="empty-state text-center py-4">
+            <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+            <p class="text-muted">No completed orders yet</p>
+            <small class="text-muted">Completed orders will appear here</small>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div
+      class="toast-container position-fixed top-0 end-0 p-3"
+      style="z-index: 1050"
+    >
+      <div
+        class="toast show"
+        *ngIf="showToast"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header">
+          <i class="fas fa-info-circle text-primary me-2"></i>
+          <strong class="me-auto">Admin Dashboard</strong>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="showToast = false"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body">
+          {{ toastMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

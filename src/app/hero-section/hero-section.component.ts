@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hero-section',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './hero-section.component.css'
 })
 export class HeroSectionComponent {
+  constructor( private router: Router) {}
 
+  onclick() {
+    this.router.navigate(['/filters']);
+  }
 }

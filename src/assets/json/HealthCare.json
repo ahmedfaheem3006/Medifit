@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Digital Thermometer",
+    "price": 120,
+    "type": "Health care",
+    "key_benefits": "Accurately measures body temperature in seconds, Easy to read digital display, Water resistant, Memory recall function, Fever alert system",
+    "description": "A fast and reliable thermometer suitable for oral, rectal, and underarm use.",
+    "rating": "4",
+    "image": "assets/images/healthcare/digital-thermometer.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 102
+  },
+  {
+    "name": "Blood Pressure Monitor",
+    "price": 780,
+    "type": "Health care",
+    "key_benefits": "Monitors systolic and diastolic pressure with memory function, Large LCD display, Irregular heartbeat detection, Multiple user memory, WHO indicator scale",
+    "description": "Easy-to-use automatic BP monitor with large display and adjustable cuff.",
+    "rating": "5",
+    "image": "assets/images/healthcare/blood-pressure-monitor.jpg",
+    "sale_percentage": 20,
+    "price_after_sale": 624
+  },
+  {
+    "name": "Pulse Oximeter",
+    "price": 390,
+    "type": "Health care",
+    "key_benefits": "Checks blood oxygen saturation and pulse rate, Quick reading, Portable design, Multi-directional display, Low battery indicator, Auto power off",
+    "description": "Portable and accurate device for monitoring SpO2 and heart rate.",
+    "rating": "4",
+    "image": "assets/images/healthcare/pulse-oximeter.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 332
+  },
+  {
+    "name": "Infrared Forehead Thermometer",
+    "price": 650,
+    "type": "Health care",
+    "key_benefits": "Contactless measurement for hygienic use, Fast reading time, Memory storage, Fever alarm, Multi-mode temperature taking",
+    "description": "Non-contact thermometer ideal for babies and adults.",
+    "rating": "3",
+    "image": "assets/images/healthcare/infrared-thermometer.jpg",
+    "sale_percentage": 25,
+    "price_after_sale": 488
+  },
+  {
+    "name": "First Aid Kit",
+    "price": 300,
+    "type": "Health care",
+    "key_benefits": "Includes all essential medical supplies for emergencies, Compact design, Clear compartments, Water-resistant case, Emergency guide included",
+    "description": "Compact and well-organized first aid kit suitable for home or travel.",
+    "rating": "5",
+    "image": "assets/images/healthcare/first-aid-kit.jpg",
+    "sale_percentage": 10,
+    "price_after_sale": 270
+  },
+  {
+    "name": "Hot Water Bottle",
+    "price": 90,
+    "type": "Health care",
+    "key_benefits": "Relieves muscle pain and menstrual cramps, Long heat retention, Leak-proof design, Soft touch cover, Natural pain relief",
+    "description": "Durable rubber bottle that keeps warm for hours.",
+    "rating": "3",
+    "image": "assets/images/healthcare/hot-water-bottle.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 77
+  },
+  {
+    "name": "Reusable Face Mask",
+    "price": 50,
+    "type": "Health care",
+    "key_benefits": "Protects against dust, pollution, and viruses, Washable material, Adjustable ear loops, Breathable fabric, Multiple layer protection",
+    "description": "Washable and breathable fabric mask with comfortable ear loops.",
+    "rating": "4",
+    "image": "assets/images/healthcare/reusable-face-mask.jpg",
+    "sale_percentage": 10,
+    "price_after_sale": 45
+  },
+  {
+    "name": "Hand Sanitizer Gel 100ml",
+    "price": 35,
+    "type": "Health care",
+    "key_benefits": "Kills 99.9% of germs without water, Quick drying formula, Non-sticky texture, Pleasant fragrance, Contains moisturizing agents",
+    "description": "Pocket-size sanitizer with moisturizing aloe vera.",
+    "rating": "5",
+    "image": "assets/images/healthcare/hand-sanitizer.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 30
+  },
+  {
+    "name": "Neck and Shoulder Heating Pad",
+    "price": 450,
+    "type": "Health care",
+    "key_benefits": "Provides soothing relief for muscle tension, Multiple heat settings, Auto shut-off feature, Machine washable cover, Flexible fit design",
+    "description": "Ergonomically designed electric heating pad with adjustable heat.",
+    "rating": "4",
+    "image": "assets/images/healthcare/neck-heating-pad.jpg",
+    "sale_percentage": 20,
+    "price_after_sale": 360
+  },
+  {
+    "name": "Anti-Slip Shower Mat",
+    "price": 110,
+    "type": "Health care",
+    "key_benefits": "Prevents slipping in the bathroom, Machine washable, Mold resistant, Strong suction cups, Quick-drying material",
+    "description": "Safe and durable mat with strong grip suction cups.",
+    "rating": "3",
+    "image": "assets/images/healthcare/shower-mat.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 94
+  },
+  {
+    "name": "Ice Pack Gel",
+    "price": 60,
+    "type": "Health care",
+    "key_benefits": "Reduces swelling, pain, and inflammation, Flexible when frozen, Non-toxic gel, Reusable design, Maintains temperature",
+    "description": "Reusable cold pack for injuries or headaches.",
+    "rating": "4",
+    "image": "assets/images/healthcare/ice-pack.jpg",
+    "sale_percentage": 10,
+    "price_after_sale": 54
+  },
+  {
+    "name": "Support Knee Brace",
+    "price": 180,
+    "type": "Health care",
+    "key_benefits": "Provides compression and support for injured knees, Adjustable straps, Breathable material, Non-slip design, Suitable for sports",
+    "description": "Elastic and breathable knee brace for daily use or workouts.",
+    "rating": "5",
+    "image": "assets/images/healthcare/knee-brace.jpg",
+    "sale_percentage": 25,
+    "price_after_sale": 135
+  },
+  {
+    "name": "Cotton Ear Buds 200pcs",
+    "price": 25,
+    "type": "Health care",
+    "key_benefits": "Safe and soft for ear cleaning and makeup use, Biodegradable stems, Double-tipped, Hygienic packaging, Strong stems",
+    "description": "100% cotton buds with paper stems for hygiene and safety.",
+    "rating": "3",
+    "image": "assets/images/healthcare/ear-buds.jpg",
+    "sale_percentage": 10,
+    "price_after_sale": 23
+  },
+  {
+    "name": "Cooling Gel Patch",
+    "price": 45,
+    "type": "Health care",
+    "key_benefits": "Instant cooling relief for fever and headaches, Long-lasting effect, Gentle adhesive, Easy to apply and remove, Suitable for children",
+    "description": "Safe for kids and adults, sticks firmly without irritation.",
+    "rating": "4",
+    "image": "assets/images/healthcare/cooling-gel-patch.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 38
+  },
+  {
+    "name": "Foot Massager Roller",
+    "price": 260,
+    "type": "Health care",
+    "key_benefits": "Stimulates circulation and relieves foot fatigue, Ergonomic design, Durable construction, Portable size, Reflexology benefits",
+    "description": "Portable wooden massager for home or office use.",
+    "rating": "5",
+    "image": "assets/images/healthcare/foot-massager.jpg",
+    "sale_percentage": 20,
+    "price_after_sale": 208
+  },
+  {
+    "name": "Nasal Strips 10pcs",
+    "price": 55,
+    "type": "Health care",
+    "key_benefits": "Opens nasal passages for easier breathing, Drug-free solution, Strong adhesive, Flexible design, Comfortable to wear",
+    "description": "Helps reduce snoring and improve sleep quality.",
+    "rating": "3",
+    "image": "assets/images/healthcare/nasal-strips.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 47
+  },
+  {
+    "name": "Sleep Eye Mask",
+    "price": 75,
+    "type": "Health care",
+    "key_benefits": "Blocks out light for deeper sleep, Soft silk material, Adjustable strap, Lightweight design, Pressure-free eye area",
+    "description": "Soft silk fabric with adjustable strap for maximum comfort.",
+    "rating": "4",
+    "image": "assets/images/healthcare/sleep-mask.jpg",
+    "sale_percentage": 10,
+    "price_after_sale": 68
+  },
+  {
+    "name": "Elastic Ankle Support",
+    "price": 95,
+    "type": "Health care",
+    "key_benefits": "Stabilizes weak or injured ankles, Compression support, Breathable fabric, Easy to wear, Suitable for sports",
+    "description": "Breathable elastic fabric for comfort during movement.",
+    "rating": "5",
+    "image": "assets/images/healthcare/ankle-support.jpg",
+    "sale_percentage": 25,
+    "price_after_sale": 71
+  },
+  {
+    "name": "Toothbrush UV Sterilizer",
+    "price": 360,
+    "type": "Health care",
+    "key_benefits": "Kills germs on toothbrush heads, UV sterilization technology, Multiple brush capacity, Easy installation, Automatic timer",
+    "description": "Wall-mountable UV sterilizer with toothpaste holder.",
+    "rating": "4",
+    "image": "assets/images/healthcare/toothbrush-sterilizer.jpg",
+    "sale_percentage": 20,
+    "price_after_sale": 288
+  },
+  {
+    "name": "Back Support Belt",
+    "price": 320,
+    "type": "Health care",
+    "key_benefits": "Improves posture and relieves back pain, Adjustable compression, Breathable material, Ergonomic design, Support stays",
+    "description": "Adjustable lumbar support for work or gym use.",
+    "rating": "5",
+    "image": "assets/images/healthcare/back-support.jpg",
+    "sale_percentage": 15,
+    "price_after_sale": 272
+  }
+]
