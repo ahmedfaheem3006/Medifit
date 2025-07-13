@@ -1,18 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "dist/main-medifit",
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "angular",
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/main-medifit"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

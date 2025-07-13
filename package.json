@@ -4,9 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "install": "npm install --legacy-peer-deps",
+    "vercel-build": "npm install --legacy-peer-deps && ng build --configuration production"
   },
   "private": true,
   "dependencies": {
@@ -42,5 +44,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.2"
+  },
+  "overrides": {
+    "@angular/core": "^17.3.0",
+    "@angular/common": "^17.3.0"
   }
 }
