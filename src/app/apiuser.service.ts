@@ -8,24 +8,24 @@ import { catchError, switchMap, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ApiuserService {
-  private registerUrl = 'https://backendmedifit.vercel.app/users/register';
-  private loginUrl = 'https://backendmedifit.vercel.app/users/login';
-  private checkEmailUrl = 'https://backendmedifit.vercel.app/check-email';
-  private forgotpassUrl = 'https://backendmedifit.vercel.app/forgot/request-password-reset';
-  private verifycodeUrl = 'https://backendmedifit.vercel.app/forgot/verify-code';
-  private newpasswordUrl = 'https://backendmedifit.vercel.app/forgot/reset-password';
-  private addproduct = 'https://backendmedifit.vercel.app/products';
-  private addproduct2 = 'https://backendmedifit.vercel.app/products/addProduct';
-  private editProduct = 'https://backendmedifit.vercel.app/products/editProduct';
-  private deleteProduct = 'https://backendmedifit.vercel.app/products/deleteProduct';
+  private registerUrl = 'http://localhost:5500/users/register';
+  private loginUrl = 'http://localhost:5500/users/login';
+  private checkEmailUrl = 'http://localhost:5500/users/check-email';
+  private forgotpassUrl = 'http://localhost:5500/forgot/request-password-reset';
+  private verifycodeUrl = 'http://localhost:5500/forgot/verify-code';
+  private newpasswordUrl = 'http://localhost:5500/forgot/reset-password';
+  private addproduct = 'https://dummyjson.com/products';
+  private addproduct2 = 'http://localhost:5500/products/addProduct';
+  private editProduct = 'http://localhost:5500/products/editProduct';
+  private deleteProduct = 'http://localhost:5500/products/deleteProduct';
   private deleteAllProducts =
-    'https://backendmedifit.vercel.app/products/deleteAllProducts';
-  private getAllProducts = 'https://backendmedifit.vercel.app/products/getAllProducts';
+    'http://localhost:5500/products/deleteAllProducts';
+  private getAllProducts = 'http://localhost:5500/products/getAllProducts';
   private submitContactUrl =
-    'https://backendmedifit.vercel.app/contactus/submitContactForm';
-  private cartUrl = 'https://backendmedifit.vercel.app/cart';
-  private ordersUrl = 'https://backendmedifit.vercel.app/orders';
-  private newsletterUrl = 'https://backendmedifit.vercel.app/newsletter';
+    'http://localhost:5500/contactus/submitContactForm';
+  private cartUrl = 'http://localhost:5500/cart';
+  private ordersUrl = 'http://localhost:5500/orders';
+  private newsletterUrl = 'http://localhost:5500/newsletter';
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
@@ -74,7 +74,7 @@ export class ApiuserService {
   }
 
   fetchUserByEmail(email: string): Observable<any> {
-    const url = `https://backendmedifit.vercel.app/users/by-email?email=${encodeURIComponent(
+    const url = `http://localhost:5500/users/by-email?email=${encodeURIComponent(
       email
     )}`;
     return this.http.get(url);
