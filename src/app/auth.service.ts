@@ -28,7 +28,7 @@ export class AuthService {
 
   loginWithGoogle() {
     // Open Google OAuth in a popup window
-    const popup = window.open('http://localhost:5500/auth/google', 'googleAuth', 'width=500,height=600');
+    const popup = window.open('https://backend-medifit.vercel.app/auth/google', 'googleAuth', 'width=500,height=600');
 
     // Check if popup was blocked
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
@@ -40,7 +40,7 @@ export class AuthService {
   // Handle messages from the OAuth popup
   private handleAuthMessage(event: MessageEvent) {
     // Make sure the message is from your backend
-    if (event.origin !== 'http://localhost:5500') return;
+    if (event.origin !== 'https://backend-medifit.vercel.app/') return;
 
     if (event.data && event.data.type === 'auth_success') {
       console.log('Received auth success message:', event.data);
@@ -107,7 +107,7 @@ export class AuthService {
   }
 
   getUserProfile(): Observable<any> {
-    return this.http.get('http://localhost:5500/profile', { 
+    return this.http.get('https://backend-medifit.vercel.app/profile', { 
       headers: this.getAuthHeaders() 
     }).pipe(
       catchError(error => {
@@ -130,7 +130,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<any> {
-    return this.http.post('http://localhost:5500/auth/refresh-token', {}, {
+    return this.http.post('https://backend-medifit.vercel.app/auth/refresh-token', {}, {
       headers: this.getAuthHeaders()
     }).pipe(
       tap((response: any) => {

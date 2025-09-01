@@ -30,7 +30,7 @@ export interface CompletedOrder {
   providedIn: 'root',
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:5500/admin';
+  private apiUrl = 'https://backend-medifit.vercel.app/admin';
   
   private pendingOrdersSubject = new BehaviorSubject<PendingOrder[]>([]);
   private completedOrdersSubject = new BehaviorSubject<CompletedOrder[]>([]);
