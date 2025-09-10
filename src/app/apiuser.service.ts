@@ -1,36 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
-import { catchError, switchMap, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiuserService {
-  // Base URL واحد فقط
-  private baseUrl = 'https://backend-medifit.vercel.app';
+  private baseUrl = 'https://backed-medifit-production.up.railway.app';
 
-  // API Endpoints
   private endpoints = {
-    // User endpoints
     register: '/users/register',
     login: '/users/login',
     checkEmail: '/users/check-email',
     userByEmail: '/users/by-email',
-
-    // Password reset endpoints
     forgotPassword: '/forgot/request-password-reset',
     verifyCode: '/forgot/verify-code',
     resetPassword: '/forgot/reset-password',
-
-    // Product endpoints
     addProduct: '/products/addProduct',
     editProduct: '/products/editProduct',
     deleteProduct: '/products/deleteProduct',
     deleteAllProducts: '/products/deleteAllProducts',
     getAllProducts: '/products/getAllProducts',
-
-    // Other endpoints
     contactUs: '/contactus/submitContactForm',
     cart: '/cart',
     orders: '/orders',
@@ -42,41 +33,53 @@ export class ApiuserService {
 
   constructor(private http: HttpClient) {}
 
-  // Helper method لبناء URL كامل
   private getUrl(endpoint: string): string {
     return `${this.baseUrl}${endpoint}`;
   }
 
-  registerUser(userData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+  // Headers مع إضافة bypass header
+  private createHeaders(includeAuth: boolean = false, isFormData: boolean = false): HttpHeaders {
+    let headers = new HttpHeaders({
+      'Bypass-Tunnel-Reminder': 'true',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
     });
 
+    if (includeAuth) {
+      const token = localStorage.getItem('authToken');
+      if (token && token !== '[object Object]') {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      } else {
+        throw new Error('Authentication required');
+      }
+    }
+
+    if (!isFormData) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+
+    return headers;
+  }
+
+  registerUser(userData: any): Observable<any> {
     return this.http
-      .post(this.getUrl(this.endpoints.register), userData, { headers })
+      .post(this.getUrl(this.endpoints.register), userData, { 
+        headers: this.createHeaders(false, false) 
+      })
       .pipe(
         catchError((error) => {
-          console.error('Register error details:', {
-            status: error.status,
-            message: error.message,
-            error: error.error,
-          });
+          console.error('Register error details:', error);
           return throwError(() => error);
         })
       );
   }
 
   loginUser(userData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
     return this.http
-      .post(this.getUrl(this.endpoints.login), userData, { headers })
+      .post(this.getUrl(this.endpoints.login), userData, { 
+        headers: this.createHeaders(false, false) 
+      })
       .pipe(
         map((response: any) => {
-          console.log('Login response:', response); // للتحقق من الاستجابة
-
           if (response && typeof response.token === 'string') {
             localStorage.setItem('authToken', response.token);
 
@@ -92,23 +95,17 @@ export class ApiuserService {
           throw new Error('Invalid token received from server');
         }),
         catchError((error) => {
-          console.error('Login error details:', {
-            status: error.status,
-            message: error.message,
-            error: error.error,
-          });
+          console.error('Login error details:', error);
           return throwError(() => error);
         })
       );
   }
 
   checkEmailUnique(email: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
     return this.http
-      .post<any>(this.getUrl(this.endpoints.checkEmail), { email }, { headers })
+      .post<any>(this.getUrl(this.endpoints.checkEmail), { email }, { 
+        headers: this.createHeaders(false, false) 
+      })
       .pipe(
         catchError((error) => {
           console.error('Error checking email uniqueness:', error);
@@ -118,30 +115,34 @@ export class ApiuserService {
   }
 
   fetchUserByEmail(email: string): Observable<any> {
-    const url = `${this.getUrl(
-      this.endpoints.userByEmail
-    )}?email=${encodeURIComponent(email)}`;
-    return this.http.get(url);
+    const url = `${this.getUrl(this.endpoints.userByEmail)}?email=${encodeURIComponent(email)}`;
+    return this.http.get(url, { 
+      headers: this.createHeaders(false, false) 
+    });
   }
 
-  // Password Reset
   requestPasswordReset(email: string): Observable<any> {
-    return this.http.post(this.getUrl(this.endpoints.forgotPassword), {
-      email,
+    return this.http.post(this.getUrl(this.endpoints.forgotPassword), { email }, {
+      headers: this.createHeaders(false, false)
     });
   }
 
   verifyCode(data: { email: string; code: string }): Observable<any> {
-    return this.http.post(this.getUrl(this.endpoints.verifyCode), data);
+    return this.http.post(this.getUrl(this.endpoints.verifyCode), data, {
+      headers: this.createHeaders(false, false)
+    });
   }
 
   resetPassword(data2: { email: string; password: string }): Observable<any> {
-    return this.http.post(this.getUrl(this.endpoints.resetPassword), data2);
+    return this.http.post(this.getUrl(this.endpoints.resetPassword), data2, {
+      headers: this.createHeaders(false, false)
+    });
   }
 
-  // Products
   getAllproducts(): Observable<any> {
-    return this.http.get<any>(this.getUrl(this.endpoints.getAllProducts)).pipe(
+    return this.http.get<any>(this.getUrl(this.endpoints.getAllProducts), {
+      headers: this.createHeaders(false, false)
+    }).pipe(
       catchError((error) => {
         console.error('Error fetching products:', error);
         return throwError(() => error);
@@ -150,50 +151,47 @@ export class ApiuserService {
   }
 
   addProduct(newProduct: FormData): Observable<any> {
-    try {
-      return this.http
-        .post(this.getUrl(this.endpoints.addProduct), newProduct, {
-          headers: this.getAuthHeaders(true),
+    return this.http
+      .post(this.getUrl(this.endpoints.addProduct), newProduct, {
+        headers: this.createHeaders(true, true)
+      })
+      .pipe(
+        catchError((error) => {
+          if (error.status === 401) {
+            console.error('Authentication failed, redirect to login');
+          }
+          throw error;
         })
-        .pipe(
-          catchError((error) => {
-            if (error.status === 401) {
-              console.error('Authentication failed, redirect to login');
-            }
-            throw error;
-          })
-        );
-    } catch (error) {
-      return throwError(() => error);
-    }
+      );
   }
 
   editproduct(id: string, product: any): Observable<any> {
     return this.http.patch(
       `${this.getUrl(this.endpoints.editProduct)}/${id}`,
       product,
-      { headers: this.getAuthHeaders(true) }
+      { headers: this.createHeaders(true, false) }
     );
   }
 
   deleteproduct(id: string): Observable<any> {
     return this.http.delete(
       `${this.getUrl(this.endpoints.deleteProduct)}/${id}`,
-      { headers: this.getAuthHeaders(true) }
+      { headers: this.createHeaders(true, false) }
     );
   }
 
   deleteAllproducts(password: string): Observable<any> {
     return this.http.delete(this.getUrl(this.endpoints.deleteAllProducts), {
-      headers: this.getAuthHeaders(true),
+      headers: this.createHeaders(true, false),
       body: { password },
     });
   }
 
-  // Contact Form
   submitContactForm(contactData: any): Observable<any> {
     return this.http
-      .post(this.getUrl(this.endpoints.contactUs), contactData)
+      .post(this.getUrl(this.endpoints.contactUs), contactData, {
+        headers: this.createHeaders(false, false)
+      })
       .pipe(
         catchError((error) => {
           console.error('Error submitting contact form:', error);
@@ -202,10 +200,11 @@ export class ApiuserService {
       );
   }
 
-  // Newsletter
   subscribeToNewsletter(email: string): Observable<any> {
     return this.http
-      .post(`${this.getUrl(this.endpoints.newsletter)}/subscribe`, { email })
+      .post(`${this.getUrl(this.endpoints.newsletter)}/subscribe`, { email }, {
+        headers: this.createHeaders(false, false)
+      })
       .pipe(
         catchError((error) => {
           console.error('Error subscribing to newsletter:', error);
@@ -217,7 +216,7 @@ export class ApiuserService {
   checkDiscountEligibility(): Observable<any> {
     return this.http
       .get(`${this.getUrl(this.endpoints.newsletter)}/check-eligibility`, {
-        headers: this.getAuthHeaders(),
+        headers: this.createHeaders(true, false)
       })
       .pipe(
         catchError((error) => {
@@ -232,7 +231,7 @@ export class ApiuserService {
       .post(
         `${this.getUrl(this.endpoints.newsletter)}/apply-discount`,
         {},
-        { headers: this.getAuthHeaders() }
+        { headers: this.createHeaders(true, false) }
       )
       .pipe(
         catchError((error) => {
@@ -242,11 +241,10 @@ export class ApiuserService {
       );
   }
 
-  // Cart Management
   getCart(): Observable<any> {
     return this.http
       .get(this.getUrl(this.endpoints.cart), {
-        headers: this.getAuthHeaders(),
+        headers: this.createHeaders(true, false)
       })
       .pipe(
         catchError((error) => {
@@ -261,7 +259,7 @@ export class ApiuserService {
       .post(
         `${this.getUrl(this.endpoints.cart)}/add`,
         { productId, quantity },
-        { headers: this.getAuthHeaders() }
+        { headers: this.createHeaders(true, false) }
       )
       .pipe(
         catchError((error) => {
@@ -276,7 +274,7 @@ export class ApiuserService {
       .patch(
         `${this.getUrl(this.endpoints.cart)}/update`,
         { productId, quantity },
-        { headers: this.getAuthHeaders() }
+        { headers: this.createHeaders(true, false) }
       )
       .pipe(
         catchError((error) => {
@@ -289,7 +287,7 @@ export class ApiuserService {
   removeFromCart(productId: string): Observable<any> {
     return this.http
       .delete(`${this.getUrl(this.endpoints.cart)}/remove/${productId}`, {
-        headers: this.getAuthHeaders(),
+        headers: this.createHeaders(true, false)
       })
       .pipe(
         catchError((error) => {
@@ -302,7 +300,7 @@ export class ApiuserService {
   clearCart(): Observable<any> {
     return this.http
       .delete(`${this.getUrl(this.endpoints.cart)}/clear`, {
-        headers: this.getAuthHeaders(),
+        headers: this.createHeaders(true, false)
       })
       .pipe(
         catchError((error) => {
@@ -312,15 +310,12 @@ export class ApiuserService {
       );
   }
 
-  // Orders Management
   createOrder(paymentMethod: string, shippingInfo: any): Observable<any> {
-    console.log('Creating order with:', { paymentMethod, shippingInfo });
-
     return this.http
       .post(
         `${this.getUrl(this.endpoints.orders)}/create`,
         { paymentMethod, shippingInfo },
-        { headers: this.getAuthHeaders() }
+        { headers: this.createHeaders(true, false) }
       )
       .pipe(
         catchError((error) => {
@@ -333,7 +328,7 @@ export class ApiuserService {
   getUserOrders(): Observable<any> {
     return this.http
       .get(this.getUrl(this.endpoints.orders), {
-        headers: this.getAuthHeaders(),
+        headers: this.createHeaders(true, false)
       })
       .pipe(
         catchError((error) => {
@@ -346,7 +341,7 @@ export class ApiuserService {
   getOrderById(orderId: string): Observable<any> {
     return this.http
       .get(`${this.getUrl(this.endpoints.orders)}/${orderId}`, {
-        headers: this.getAuthHeaders(),
+        headers: this.createHeaders(true, false)
       })
       .pipe(
         catchError((error) => {
@@ -361,7 +356,7 @@ export class ApiuserService {
       .patch(
         `${this.getUrl(this.endpoints.orders)}/cancel/${orderId}`,
         {},
-        { headers: this.getAuthHeaders() }
+        { headers: this.createHeaders(true, false) }
       )
       .pipe(
         catchError((error) => {
@@ -371,7 +366,6 @@ export class ApiuserService {
       );
   }
 
-  // Helper Methods
   isLoggedIn(): boolean {
     return !!localStorage.getItem('authToken');
   }
@@ -400,31 +394,10 @@ export class ApiuserService {
     );
   }
 
-  // Headers Management
-  private getAuthHeaders(isFormData: boolean = false): HttpHeaders {
-    const token = localStorage.getItem('authToken');
-
-    if (!token || token === '[object Object]') {
-      console.error('Invalid token found:', token);
-      throw new Error('Invalid authentication token');
-    }
-
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${token}`);
-
-    if (!isFormData) {
-      headers = headers.set('Content-Type', 'application/json');
-    }
-
-    return headers;
-  }
-
-  // إذا أردت تغيير الـ baseUrl بسهولة (للتطوير مثلاً)
   setBaseUrl(url: string): void {
     this.baseUrl = url;
   }
 
-  // للحصول على الـ baseUrl الحالي
   getBaseUrl(): string {
     return this.baseUrl;
   }

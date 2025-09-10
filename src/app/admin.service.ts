@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
+import { Observable, forkJoin, BehaviorSubject, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 export interface TopProduct {
@@ -30,7 +30,7 @@ export interface CompletedOrder {
   providedIn: 'root',
 })
 export class AdminService {
-  private apiUrl = 'https://backend-medifit.vercel.app/admin';
+  private apiUrl = 'https://backed-medifit-production.up.railway.app/admin';
   
   private pendingOrdersSubject = new BehaviorSubject<PendingOrder[]>([]);
   private completedOrdersSubject = new BehaviorSubject<CompletedOrder[]>([]);
@@ -42,17 +42,26 @@ export class AdminService {
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
+    
+    if (!token || token === 'undefined' || token === 'null' || token === '[object Object]') {
+      console.error('No valid token found for admin');
+      throw new Error('Authentication required');
+    }
+
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
+      'Bypass-Tunnel-Reminder': 'true',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
     });
   }
 
   getAdminStats(): Observable<any> {
     return forkJoin({
-      users: this.http.get<{ count: number }>(`${this.apiUrl}/users/count`, {
-        headers: this.getAuthHeaders(),
-      }),
+      users: this.http.get<{ count: number }>(
+        `${this.apiUrl}/users/count`, 
+        { headers: this.getAuthHeaders() }
+      ),
       googleUsers: this.http.get<{ count: number }>(
         `${this.apiUrl}/google-users/count`,
         { headers: this.getAuthHeaders() }
@@ -72,79 +81,118 @@ export class AdminService {
       })),
       catchError((error) => {
         console.error('Error loading admin stats:', error);
-        throw error;
+        // Return default values on error
+        return of({
+          totalUsers: 0,
+          totalPurchases: 0,
+          totalRevenue: 0,
+          pendingOrders: 0,
+          completedOrders: 0
+        });
       })
     );
   }
 
   getTopProducts(): Observable<TopProduct[]> {
     return this.http
-      .get<TopProduct[]>(`${this.apiUrl}/products/top`, {
-        headers: this.getAuthHeaders(),
-      })
+      .get<TopProduct[]>(
+        `${this.apiUrl}/products/top`, 
+        { headers: this.getAuthHeaders() }
+      )
       .pipe(
-        map(products => 
-          products.map(product => ({
+        map(products => {
+          if (!Array.isArray(products)) {
+            console.error('Invalid products response:', products);
+            return [];
+          }
+          return products.map(product => ({
             ...product,
-            image: product.image || '/assets/images/no-image.png'
-          }))
-        ),
+            // تحديث URL الصور لـ ngrok
+            image: product.image ? 
+              product.image.replace('http://localhost:5500', 'https://hot-adder-steadily.ngrok-free.app') : 
+              '/assets/images/no-image.png'
+          }));
+        }),
         catchError((error) => {
           console.error('Error loading top products:', error);
-          throw error;
+          return of([]);
         })
       );
   }
 
   getPendingOrders(): Observable<PendingOrder[]> {
     return this.http
-      .get<PendingOrder[]>(`${this.apiUrl}/orders/pending`, {
-        headers: this.getAuthHeaders(),
-      })
+      .get<PendingOrder[]>(
+        `${this.apiUrl}/orders/pending`, 
+        { headers: this.getAuthHeaders() }
+      )
       .pipe(
+        map(orders => {
+          if (!Array.isArray(orders)) {
+            console.error('Invalid pending orders response:', orders);
+            return [];
+          }
+          return orders;
+        }),
         tap(orders => this.pendingOrdersSubject.next(orders)),
         catchError((error) => {
           console.error('Error loading pending orders:', error);
-          throw error;
+          this.pendingOrdersSubject.next([]);
+          return of([]);
         })
       );
   }
 
   getCompletedOrders(): Observable<CompletedOrder[]> {
-    return this.http.get<CompletedOrder[]>(`${this.apiUrl}/orders/completed`, { 
-      headers: this.getAuthHeaders() 
-    }).pipe(
+    return this.http.get<CompletedOrder[]>(
+      `${this.apiUrl}/orders/completed`, 
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      map(orders => {
+        if (!Array.isArray(orders)) {
+          console.error('Invalid completed orders response:', orders);
+          return [];
+        }
+        return orders;
+      }),
       tap(orders => this.completedOrdersSubject.next(orders)),
       catchError(error => {
         console.error('Error loading completed orders:', error);
-        throw error;
+        this.completedOrdersSubject.next([]);
+        return of([]);
       })
     );
   }
 
   getCompletedOrdersStats(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/orders/completed/stats`, { 
-      headers: this.getAuthHeaders() 
-    }).pipe(
+    return this.http.get<any>(
+      `${this.apiUrl}/orders/completed/stats`, 
+      { headers: this.getAuthHeaders() }
+    ).pipe(
       catchError(error => {
         console.error('Error loading completed orders stats:', error);
-        return new Observable(observer => {
-          observer.next({ completedCount: 0, completedRevenue: 0 });
-          observer.complete();
-        });
+        return of({ completedCount: 0, completedRevenue: 0 });
       })
     );
   }
 
   getDailySales(): Observable<{ date: string; total: number }[]> {
     return this.http
-      .get<{ date: string; total: number }[]>(`${this.apiUrl}/orders/daily`, {
-        headers: this.getAuthHeaders(),
-      })
+      .get<{ date: string; total: number }[]>(
+        `${this.apiUrl}/orders/daily`, 
+        { headers: this.getAuthHeaders() }
+      )
       .pipe(
+        map(sales => {
+          if (!Array.isArray(sales)) {
+            console.error('Invalid daily sales response:', sales);
+            return [];
+          }
+          return sales;
+        }),
         catchError((error) => {
           console.error('Error loading daily sales:', error);
-          throw error;
+          return of([]);
         })
       );
   }
@@ -153,27 +201,40 @@ export class AdminService {
     return this.http
       .get<{ month: string; total: number }[]>(
         `${this.apiUrl}/orders/monthly`,
-        {
-          headers: this.getAuthHeaders(),
-        }
+        { headers: this.getAuthHeaders() }
       )
       .pipe(
+        map(sales => {
+          if (!Array.isArray(sales)) {
+            console.error('Invalid monthly sales response:', sales);
+            return [];
+          }
+          return sales;
+        }),
         catchError((error) => {
           console.error('Error loading monthly sales:', error);
-          throw error;
+          return of([]);
         })
       );
   }
 
   getYearlySales(): Observable<{ year: number; total: number }[]> {
     return this.http
-      .get<{ year: number; total: number }[]>(`${this.apiUrl}/orders/yearly`, {
-        headers: this.getAuthHeaders(),
-      })
+      .get<{ year: number; total: number }[]>(
+        `${this.apiUrl}/orders/yearly`, 
+        { headers: this.getAuthHeaders() }
+      )
       .pipe(
+        map(sales => {
+          if (!Array.isArray(sales)) {
+            console.error('Invalid yearly sales response:', sales);
+            return [];
+          }
+          return sales;
+        }),
         catchError((error) => {
           console.error('Error loading yearly sales:', error);
-          throw error;
+          return of([]);
         })
       );
   }
@@ -183,17 +244,18 @@ export class AdminService {
       .patch(
         `${this.apiUrl}/orders/approve/${orderId}`,
         {},
-        {
-          headers: this.getAuthHeaders(),
-        }
+        { headers: this.getAuthHeaders() }
       )
       .pipe(
         tap((response: any) => {
           console.log('Approve order response:', response);
+          
+          // Update pending orders
           const currentPending = this.pendingOrdersSubject.value;
           const updatedPending = currentPending.filter(order => order.orderId !== orderId);
           this.pendingOrdersSubject.next(updatedPending);
 
+          // Add to completed orders if response includes it
           if (response.completedOrder) {
             const currentCompleted = this.completedOrdersSubject.value;
             const newCompletedOrder: CompletedOrder = {
@@ -218,12 +280,11 @@ export class AdminService {
       .patch(
         `${this.apiUrl}/orders/reject/${orderId}`,
         {},
-        {
-          headers: this.getAuthHeaders(),
-        }
+        { headers: this.getAuthHeaders() }
       )
       .pipe(
         tap(() => {
+          // Remove from pending orders
           const currentPending = this.pendingOrdersSubject.value;
           const updatedPending = currentPending.filter(order => order.orderId !== orderId);
           this.pendingOrdersSubject.next(updatedPending);
@@ -250,13 +311,56 @@ export class AdminService {
       })),
       catchError((error) => {
         console.error('Error loading dashboard summary:', error);
-        throw error;
+        // Return default dashboard data on error
+        return of({
+          totalUsers: 0,
+          totalPurchases: 0,
+          totalRevenue: 0,
+          pendingOrders: 0,
+          completedOrders: 0,
+          topProducts: [],
+          pendingOrdersList: [],
+          completedOrdersList: []
+        });
       })
     );
   }
 
   refreshData(): void {
-    this.getPendingOrders().subscribe();
-    this.getCompletedOrders().subscribe();
+    this.getPendingOrders().subscribe({
+      next: (orders) => console.log('Pending orders refreshed:', orders.length),
+      error: (error) => console.error('Error refreshing pending orders:', error)
+    });
+    
+    this.getCompletedOrders().subscribe({
+      next: (orders) => console.log('Completed orders refreshed:', orders.length),
+      error: (error) => console.error('Error refreshing completed orders:', error)
+    });
+  }
+
+  // Helper method للتحقق من صحة البيانات
+  private validateResponse<T>(response: any, defaultValue: T): T {
+    if (!response) {
+      console.warn('Empty response received');
+      return defaultValue;
+    }
+    return response;
+  }
+
+  // Method للتحقق من صلاحيات الأدمن
+  checkAdminAccess(): Observable<boolean> {
+    return this.http.get<any>(
+      `${this.apiUrl}/users/count`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      map(() => true),
+      catchError((error) => {
+        if (error.status === 403 || error.status === 401) {
+          console.error('Admin access denied');
+          return of(false);
+        }
+        return of(false);
+      })
+    );
   }
 }
