@@ -328,6 +328,17 @@
   }
 }
 
+@media (max-width: 575px) {
+  .footer-image-space.left,
+  .footer-image-space.right {
+    display: none;
+  }
+  
+  .footer-content-wrapper {
+    padding: 0;
+  }
+}
+
 @media (max-width: 480px) {
   .footer {
     padding: 40px 0 20px;
