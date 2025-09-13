@@ -38,12 +38,16 @@ const routes: Routes = [
   { path: 'shippingaddress', component: ShippingaddressComponent },
   { path: 'orders', component: UserordersComponent },
   { path: 'dashboard', component: DashboardComponent },
+
+  { path: '**', redirectTo: '/home' },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'top',
+
+      useHash: false,
     }),
   ],
   exports: [RouterModule],
