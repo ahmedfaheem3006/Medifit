@@ -38,10 +38,14 @@ export class ApiuserService {
   }
 
   // Headers مع إضافة bypass header
-  private createHeaders(includeAuth: boolean = false, isFormData: boolean = false): HttpHeaders {
+  private createHeaders(
+    includeAuth: boolean = false,
+    isFormData: boolean = false
+  ): HttpHeaders {
     let headers = new HttpHeaders({
       'Bypass-Tunnel-Reminder': 'true',
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     });
 
     if (includeAuth) {
@@ -62,8 +66,8 @@ export class ApiuserService {
 
   registerUser(userData: any): Observable<any> {
     return this.http
-      .post(this.getUrl(this.endpoints.register), userData, { 
-        headers: this.createHeaders(false, false) 
+      .post(this.getUrl(this.endpoints.register), userData, {
+        headers: this.createHeaders(false, false),
       })
       .pipe(
         catchError((error) => {
@@ -75,8 +79,8 @@ export class ApiuserService {
 
   loginUser(userData: any): Observable<any> {
     return this.http
-      .post(this.getUrl(this.endpoints.login), userData, { 
-        headers: this.createHeaders(false, false) 
+      .post(this.getUrl(this.endpoints.login), userData, {
+        headers: this.createHeaders(false, false),
       })
       .pipe(
         map((response: any) => {
@@ -103,9 +107,13 @@ export class ApiuserService {
 
   checkEmailUnique(email: string): Observable<any> {
     return this.http
-      .post<any>(this.getUrl(this.endpoints.checkEmail), { email }, { 
-        headers: this.createHeaders(false, false) 
-      })
+      .post<any>(
+        this.getUrl(this.endpoints.checkEmail),
+        { email },
+        {
+          headers: this.createHeaders(false, false),
+        }
+      )
       .pipe(
         catchError((error) => {
           console.error('Error checking email uniqueness:', error);
@@ -115,62 +123,101 @@ export class ApiuserService {
   }
 
   fetchUserByEmail(email: string): Observable<any> {
-    const url = `${this.getUrl(this.endpoints.userByEmail)}?email=${encodeURIComponent(email)}`;
-    return this.http.get(url, { 
-      headers: this.createHeaders(false, false) 
+    const url = `${this.getUrl(
+      this.endpoints.userByEmail
+    )}?email=${encodeURIComponent(email)}`;
+    return this.http.get(url, {
+      headers: this.createHeaders(false, false),
     });
   }
 
   requestPasswordReset(email: string): Observable<any> {
-    return this.http.post(this.getUrl(this.endpoints.forgotPassword), { email }, {
-      headers: this.createHeaders(false, false)
-    });
+    return this.http.post(
+      this.getUrl(this.endpoints.forgotPassword),
+      { email },
+      {
+        headers: this.createHeaders(false, false),
+      }
+    );
   }
 
   verifyCode(data: { email: string; code: string }): Observable<any> {
     return this.http.post(this.getUrl(this.endpoints.verifyCode), data, {
-      headers: this.createHeaders(false, false)
+      headers: this.createHeaders(false, false),
     });
   }
 
   resetPassword(data2: { email: string; password: string }): Observable<any> {
     return this.http.post(this.getUrl(this.endpoints.resetPassword), data2, {
-      headers: this.createHeaders(false, false)
+      headers: this.createHeaders(false, false),
     });
   }
 
   getAllproducts(): Observable<any> {
-    return this.http.get<any>(this.getUrl(this.endpoints.getAllProducts), {
-      headers: this.createHeaders(false, false)
-    }).pipe(
-      catchError((error) => {
-        console.error('Error fetching products:', error);
-        return throwError(() => error);
+    return this.http
+      .get<any>(this.getUrl(this.endpoints.getAllProducts), {
+        headers: this.createHeaders(false, false),
       })
-    );
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching products:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
-  addProduct(newProduct: FormData): Observable<any> {
+  addProduct(productData: any): Observable<any> {
+    let headers = this.createHeaders(true, false);
+    let body: any;
+
+    // إذا كانت البيانات FormData (رفع ملف)
+    if (productData instanceof FormData) {
+      // مع FormData، لا نضع Content-Type لأن المتصفح سيضعه تلقائياً
+      headers = headers.delete('Content-Type');
+      body = productData;
+    }
+    // إذا كانت البيانات عادية (مع رابط)
+    else {
+      body = productData;
+    }
+
     return this.http
-      .post(this.getUrl(this.endpoints.addProduct), newProduct, {
-        headers: this.createHeaders(true, true)
-      })
+      .post(this.getUrl(this.endpoints.addProduct), body, { headers })
       .pipe(
         catchError((error) => {
           if (error.status === 401) {
             console.error('Authentication failed, redirect to login');
           }
-          throw error;
+          console.error('Add product error:', error);
+          return throwError(() => error);
         })
       );
   }
 
-  editproduct(id: string, product: any): Observable<any> {
-    return this.http.patch(
-      `${this.getUrl(this.endpoints.editProduct)}/${id}`,
-      product,
-      { headers: this.createHeaders(true, false) }
-    );
+  editproduct(id: string, productData: any): Observable<any> {
+    let headers = this.createHeaders(true, false);
+    let body: any;
+
+    // إذا كانت البيانات FormData (رفع ملف)
+    if (productData instanceof FormData) {
+      headers = headers.delete('Content-Type');
+      body = productData;
+    }
+    // إذا كانت البيانات عادية
+    else {
+      body = productData;
+    }
+
+    return this.http
+      .patch(`${this.getUrl(this.endpoints.editProduct)}/${id}`, body, {
+        headers,
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Edit product error:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   deleteproduct(id: string): Observable<any> {
@@ -190,7 +237,7 @@ export class ApiuserService {
   submitContactForm(contactData: any): Observable<any> {
     return this.http
       .post(this.getUrl(this.endpoints.contactUs), contactData, {
-        headers: this.createHeaders(false, false)
+        headers: this.createHeaders(false, false),
       })
       .pipe(
         catchError((error) => {
@@ -202,9 +249,13 @@ export class ApiuserService {
 
   subscribeToNewsletter(email: string): Observable<any> {
     return this.http
-      .post(`${this.getUrl(this.endpoints.newsletter)}/subscribe`, { email }, {
-        headers: this.createHeaders(false, false)
-      })
+      .post(
+        `${this.getUrl(this.endpoints.newsletter)}/subscribe`,
+        { email },
+        {
+          headers: this.createHeaders(false, false),
+        }
+      )
       .pipe(
         catchError((error) => {
           console.error('Error subscribing to newsletter:', error);
@@ -216,7 +267,7 @@ export class ApiuserService {
   checkDiscountEligibility(): Observable<any> {
     return this.http
       .get(`${this.getUrl(this.endpoints.newsletter)}/check-eligibility`, {
-        headers: this.createHeaders(true, false)
+        headers: this.createHeaders(true, false),
       })
       .pipe(
         catchError((error) => {
@@ -244,7 +295,7 @@ export class ApiuserService {
   getCart(): Observable<any> {
     return this.http
       .get(this.getUrl(this.endpoints.cart), {
-        headers: this.createHeaders(true, false)
+        headers: this.createHeaders(true, false),
       })
       .pipe(
         catchError((error) => {
@@ -287,7 +338,7 @@ export class ApiuserService {
   removeFromCart(productId: string): Observable<any> {
     return this.http
       .delete(`${this.getUrl(this.endpoints.cart)}/remove/${productId}`, {
-        headers: this.createHeaders(true, false)
+        headers: this.createHeaders(true, false),
       })
       .pipe(
         catchError((error) => {
@@ -300,7 +351,7 @@ export class ApiuserService {
   clearCart(): Observable<any> {
     return this.http
       .delete(`${this.getUrl(this.endpoints.cart)}/clear`, {
-        headers: this.createHeaders(true, false)
+        headers: this.createHeaders(true, false),
       })
       .pipe(
         catchError((error) => {
@@ -328,7 +379,7 @@ export class ApiuserService {
   getUserOrders(): Observable<any> {
     return this.http
       .get(this.getUrl(this.endpoints.orders), {
-        headers: this.createHeaders(true, false)
+        headers: this.createHeaders(true, false),
       })
       .pipe(
         catchError((error) => {
@@ -341,7 +392,7 @@ export class ApiuserService {
   getOrderById(orderId: string): Observable<any> {
     return this.http
       .get(`${this.getUrl(this.endpoints.orders)}/${orderId}`, {
-        headers: this.createHeaders(true, false)
+        headers: this.createHeaders(true, false),
       })
       .pipe(
         catchError((error) => {

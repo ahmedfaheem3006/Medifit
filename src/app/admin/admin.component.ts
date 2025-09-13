@@ -30,7 +30,10 @@ export class AdminComponent implements OnInit {
     if (savedTheme === 'dark') {
       document.documentElement.classList.add('dark');
     }
-    if (!this.apiService.isLoggedIn() || localStorage.getItem('role') !== 'admin') {
+    if (
+      !this.apiService.isLoggedIn() ||
+      localStorage.getItem('role') !== 'admin'
+    ) {
       this.showToastMessage('You need admin privileges to access this page');
       this.router.navigate(['/login']);
     }
@@ -38,16 +41,67 @@ export class AdminComponent implements OnInit {
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
-    this.image = file;
+    if (file) {
+      // قائمة أنواع الملفات المسموحة
+      const allowedTypes = [
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+      ];
+
+      // التحقق من نوع الملف
+      if (!allowedTypes.includes(file.type)) {
+        this.showToastMessage(
+          'Please select a valid image file (JPEG, PNG, GIF, or WEBP)'
+        );
+        event.target.value = ''; // مسح الاختيار
+        this.image = null;
+        return;
+      }
+
+      // التحقق من حجم الملف (5MB كحد أقصى)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        this.showToastMessage('File size should not exceed 5MB');
+        event.target.value = '';
+        this.image = null;
+        return;
+      }
+
+      // التحقق من امتداد الملف
+      const fileName = file.name.toLowerCase();
+      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+      const hasValidExtension = allowedExtensions.some((ext) =>
+        fileName.endsWith(ext)
+      );
+
+      if (!hasValidExtension) {
+        this.showToastMessage(
+          'Invalid file extension. Allowed: jpg, jpeg, png, gif, webp'
+        );
+        event.target.value = '';
+        this.image = null;
+        return;
+      }
+
+      this.image = file;
+      console.log('Selected file:', {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      });
+    }
   }
 
-  // Función para calcular el precio después del descuento
   calculatePriceAfterSale(): void {
     if (this.price && this.salePercentage) {
       const originalPrice = parseFloat(this.price);
       const discountPercentage = parseFloat(this.salePercentage);
       if (!isNaN(originalPrice) && !isNaN(discountPercentage)) {
-        const calculatedPrice = originalPrice - (originalPrice * discountPercentage / 100);
+        const calculatedPrice =
+          originalPrice - (originalPrice * discountPercentage) / 100;
         this.priceAfterSale = calculatedPrice.toFixed(2);
       }
     }
@@ -60,6 +114,12 @@ export class AdminComponent implements OnInit {
     }
 
     if (form.valid) {
+      // التحقق من وجود صورة عند إضافة منتج جديد
+      if (!this.ProductId && !this.image) {
+        this.showToastMessage('Please select an image');
+        return;
+      }
+
       const formData = new FormData();
       formData.append('type', this.productType);
       formData.append('rating', this.ratingType);
@@ -67,9 +127,15 @@ export class AdminComponent implements OnInit {
       formData.append('price', this.price);
       formData.append('key_benefits', this.keyBenefits);
       formData.append('description', this.description);
-      formData.append('image', this.image);
 
-      // Agregar los nuevos campos al FormData
+      // إضافة الصورة - التحقق من نوع الصورة
+      if (this.image instanceof File) {
+        formData.append('image', this.image);
+      } else if (this.ProductId && !this.image) {
+        // في حالة التحديث بدون تغيير الصورة، لا نرسل صورة
+      }
+
+      // إضافة حقول الخصم
       if (this.salePercentage) {
         formData.append('sale_percentage', this.salePercentage);
       }
@@ -81,27 +147,41 @@ export class AdminComponent implements OnInit {
         this.apiService.editproduct(this.ProductId, formData).subscribe(
           (response) => {
             this.showToastMessage('Product updated successfully!');
+            this.resetForm();
             setTimeout(() => {
               window.location.reload();
             }, 2500);
           },
           (error) => {
-            this.showToastMessage(`Error: ${error.message}`);
+            console.error('Update error:', error);
+            this.showToastMessage(
+              error.error?.error ||
+                error.error?.message ||
+                'Error updating product'
+            );
           }
         );
       } else {
         this.apiService.addProduct(formData).subscribe(
           (response) => {
-            this.showToastMessage('Product added successfully!!');
+            this.showToastMessage('Product added successfully!');
+            this.resetForm();
             setTimeout(() => {
               window.location.reload();
             }, 2500);
           },
           (error) => {
-            this.showToastMessage(`Error: ${error.message}`);
+            console.error('Add error:', error);
+            this.showToastMessage(
+              error.error?.error ||
+                error.error?.message ||
+                'Error adding product'
+            );
           }
         );
       }
+    } else {
+      this.showToastMessage('Please fill all required fields');
     }
   }
 
@@ -114,16 +194,24 @@ export class AdminComponent implements OnInit {
           if (product) {
             this.ProductId = product._id;
             this.productType = product.type;
-            this.ratingType = product.rating;
+            this.ratingType = product.rating.toString();
             this.Productname = product.name;
-            this.price = product.price;
-            this.image = product.image;
+            this.price = product.price.toString();
+            this.image = product.image; // حفظ رابط الصورة الحالية
             this.description = product.description;
             this.keyBenefits = product.key_benefits;
+            this.salePercentage = product.sale_percentage
+              ? product.sale_percentage.toString()
+              : '';
+            this.priceAfterSale = product.price_after_sale
+              ? product.price_after_sale.toString()
+              : '';
 
-            // Cargar los nuevos campos
-            this.salePercentage = product.sale_percentage || '';
-            this.priceAfterSale = product.price_after_sale || '';
+            // تحديث عنوان الفورم
+            const formTitle = document.getElementById('formTitle');
+            if (formTitle) {
+              formTitle.textContent = 'Edit Product';
+            }
 
             this.showToastMessage('Product loaded successfully for editing!');
           } else {
@@ -131,7 +219,8 @@ export class AdminComponent implements OnInit {
           }
         },
         (error) => {
-          this.showToastMessage(`Error fetching products: ${error.message}`);
+          console.error('Error fetching products:', error);
+          this.showToastMessage('Error fetching products');
         }
       );
     } else {
@@ -139,26 +228,33 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  deleteproduct() {
-    const promptMsg = prompt(
+  deleteproduct(): void {
+    const productId = prompt(
       'Please enter the Product ID of the product to delete:'
     );
-    if (promptMsg) {
-      this.apiService.deleteproduct(promptMsg).subscribe(
-        (response) => {
-          this.showToastMessage('Product deleted successfully!');
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        },
-        (error) => {
-          this.showToastMessage(`Error: ${error.message}`);
-        }
-      );
+    if (productId) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        this.apiService.deleteproduct(productId).subscribe(
+          (response) => {
+            this.showToastMessage('Product deleted successfully!');
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+          (error) => {
+            console.error('Delete error:', error);
+            this.showToastMessage(
+              error.error?.error ||
+                error.error?.message ||
+                'Error deleting product'
+            );
+          }
+        );
+      }
     }
   }
 
-  deleteAllproducts() {
+  deleteAllproducts(): void {
     const confirmDelete = confirm(
       'Are you sure you want to delete all products? This action cannot be undone.'
     );
@@ -173,34 +269,66 @@ export class AdminComponent implements OnInit {
             }, 3000);
           },
           (error) => {
-            this.showToastMessage(`Error: ${error.message}`);
+            console.error('Delete all error:', error);
+            this.showToastMessage(
+              error.error?.error ||
+                error.error?.message ||
+                'Error deleting products'
+            );
           }
         );
       }
     }
   }
 
-  showToast() {
+  resetForm(): void {
+    this.ProductId = '';
+    this.productType = 'Medical devices';
+    this.ratingType = '5';
+    this.Productname = '';
+    this.price = '';
+    this.image = '';
+    this.keyBenefits = '';
+    this.description = '';
+    this.salePercentage = '';
+    this.priceAfterSale = '';
+
+    // مسح input الملف
+    const fileInput = document.getElementById('Image') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+
+    // إعادة تعيين عنوان الفورم
+    const formTitle = document.getElementById('formTitle');
+    if (formTitle) {
+      formTitle.textContent = 'Add New Product';
+    }
+  }
+
+  showToast(): void {
     const toastEl = document.getElementById('toast-warning');
     if (toastEl) {
-      const toast = new bootstrap.Toast(toastEl);
+      const toast = new bootstrap.Toast(toastEl, {
+        autohide: true,
+        delay: 3000,
+      });
       toast.show();
     }
   }
 
-  closeToast() {
+  closeToast(): void {
     const toastEl = document.getElementById('toast-warning');
     if (toastEl) {
-      const toast = new bootstrap.Toast(toastEl);
-      toast.hide();
+      const toast = bootstrap.Toast.getInstance(toastEl);
+      if (toast) {
+        toast.hide();
+      }
     }
   }
 
-  showToastMessage(message: string) {
+  showToastMessage(message: string): void {
     this.toastMessage = message;
     this.showToast();
-    setTimeout(() => {
-      this.closeToast();
-    }, 3000);
   }
 }

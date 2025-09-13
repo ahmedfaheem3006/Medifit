@@ -391,11 +391,12 @@
                       </div>
 
                       <img
-                        [src]="'../../assets/img/' + product.image"
-                        alt="not loaded"
+                        [src]="getProductImage(product)"
+                        [alt]="product.name || 'Product Image'"
+                        loading="lazy"
                         class="card-img-top"
+                        (error)="onImageError($event, product)"
                       />
-
                       <div class="card-body">
                         <p class="typeproduct Outfit">{{ product.type }}</p>
                         <h4 class="nameproduct Outfit">{{ product.name }}</h4>

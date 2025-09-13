@@ -190,6 +190,9 @@ export class FiltersComponent implements OnInit {
     // });
   }
 
+  // إضافة المتغيرات في بداية الكلاس
+  defaultProductImage: string = 'assets/img/default-product.png';
+
   fetchProducts(): void {
     this.isLoading = true;
     this.ApiuserService.getAllproducts().subscribe(
@@ -248,6 +251,83 @@ export class FiltersComponent implements OnInit {
     );
     this.productshowing = `${endIndex}`;
     this.numberofproduct = `${this.filteredProducts.length}`;
+  }
+
+  // دالة جديدة للحصول على مسار الصورة
+  getProductImage(product: any): string {
+    if (!product || !product.image) {
+      return this.defaultProductImage;
+    }
+
+    // إذا كانت الصورة رابط كامل (من Cloudinary أو أي مصدر خارجي)
+    if (
+      product.image.startsWith('http://') ||
+      product.image.startsWith('https://')
+    ) {
+      return product.image;
+    }
+
+    // إذا كانت الصورة من المجلد المحلي
+    return `assets/img/${product.image}`;
+  }
+
+  // دالة محسنة للتعامل مع خطأ تحميل الصورة
+  onImageError(event: any, product?: any): void {
+    const img = event.target;
+    const currentSrc = img.src;
+
+    // نتحقق من عدد المحاولات لتجنب اللوب اللانهائي
+    if (!img.dataset.attempts) {
+      img.dataset.attempts = '0';
+    }
+
+    const attempts = parseInt(img.dataset.attempts);
+
+    // إذا فشلت الصورة المحلية وكان المنتج يحتوي على image كرابط
+    if (
+      attempts === 0 &&
+      currentSrc.includes('assets/img/') &&
+      product &&
+      product.image
+    ) {
+      // التحقق من أن الصورة رابط كامل
+      if (
+        product.image.startsWith('http://') ||
+        product.image.startsWith('https://')
+      ) {
+        img.dataset.attempts = '1';
+        img.src = product.image;
+        return;
+      }
+    }
+
+    // إذا فشلت كل المحاولات، استخدم الصورة الافتراضية
+    img.src = this.defaultProductImage;
+  }
+
+  // دالة اختيارية لتحميل الصور مع تحسين الأداء
+  preloadImage(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve();
+      img.onerror = () => reject();
+      img.src = src;
+    });
+  }
+
+  // دالة اختيارية للحصول على صورة محسنة من Cloudinary
+  getOptimizedCloudinaryImage(imageUrl: string): string {
+    if (imageUrl && imageUrl.includes('cloudinary.com')) {
+      // إضافة transformations لتحسين الأداء
+      const parts = imageUrl.split('/upload/');
+      if (parts.length === 2) {
+        // تحسينات: عرض 400px، جودة تلقائية، فورمات تلقائي
+        return (
+          parts[0] + '/upload/w_400,h_400,c_fill,q_auto,f_auto/' + parts[1]
+        );
+      }
+    }
+    return imageUrl;
   }
 
   goToPreviousPage(): void {
