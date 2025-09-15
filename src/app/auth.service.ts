@@ -9,6 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly BASE_URL = 'https://medifitbackend-production.up.railway.app';
   private userRoleSubject = new BehaviorSubject<string | null>(localStorage.getItem('role'));
   public userRole$ = this.userRoleSubject.asObservable();
   
@@ -28,7 +29,7 @@ export class AuthService {
 
   loginWithGoogle() {
     // Open Google OAuth in a popup window
-    const popup = window.open('https://backed-medifit-production.up.railway.app/auth/google', 'googleAuth', 'width=500,height=600');
+    const popup = window.open(`${this.BASE_URL}/auth/google`, 'googleAuth', 'width=500,height=600');
 
     // Check if popup was blocked
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
@@ -39,8 +40,8 @@ export class AuthService {
 
   // Handle messages from the OAuth popup
   private handleAuthMessage(event: MessageEvent) {
-    // Make sure the message is from your backend
-    if (event.origin !== 'https://backed-medifit-production.up.railway.app/') return;
+    // Make sure the message is from your backend (fixed the trailing slash)
+    if (event.origin !== this.BASE_URL) return;
 
     if (event.data && event.data.type === 'auth_success') {
       console.log('Received auth success message:', event.data);
@@ -107,7 +108,7 @@ export class AuthService {
   }
 
   getUserProfile(): Observable<any> {
-    return this.http.get('https://backed-medifit-production.up.railway.app/profile', { 
+    return this.http.get(`${this.BASE_URL}/profile`, { 
       headers: this.getAuthHeaders() 
     }).pipe(
       catchError(error => {
@@ -130,7 +131,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<any> {
-    return this.http.post('https://backed-medifit-production.up.railway.app/auth/refresh-token', {}, {
+    return this.http.post(`${this.BASE_URL}/auth/refresh-token`, {}, {
       headers: this.getAuthHeaders()
     }).pipe(
       tap((response: any) => {

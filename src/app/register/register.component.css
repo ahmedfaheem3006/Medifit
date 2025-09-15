@@ -252,3 +252,189 @@
 .login-link:hover {
   color: #3e2712;
 }
+
+
+/* Responsive styles for mobile devices */
+@media (max-width: 576px) {
+  .custom-bg {
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
+  }
+
+  .divlogo {
+    padding-top: 20px;
+    padding-right: 0;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+
+  .logoico {
+    width: 30px;
+    height: 30px;
+  }
+
+  .creataccount {
+    font-size: 28px;
+    line-height: 34px;
+    margin-bottom: 10px;
+  }
+
+  .textsignup {
+    font-size: 16px;
+    line-height: 22px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
+
+  .mdiv {
+    padding: 0 15px;
+  }
+
+  /* Form responsive */
+  form {
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  .classlabel {
+    width: 100%;
+    font-size: 18px;
+    height: auto;
+  }
+
+  .form-control {
+    width: 100%;
+    font-size: 16px;
+    height: 42px;
+  }
+
+  .signupBtn {
+    width: 100%;
+    font-size: 16px;
+    height: 46px;
+  }
+
+  .google {
+    width: 100%;
+    font-size: 16px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+  }
+
+  .separator span {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .login-redirect {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  /* Toast responsive */
+  #toast-warning {
+    width: calc(100% - 30px);
+    max-width: 350px;
+    margin-top: 20px;
+  }
+
+  .toast-body {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+
+  .btn-fa {
+    font-size: 18px;
+  }
+}
+
+/* Extra small devices (phones, less than 375px) */
+@media (max-width: 374px) {
+  .creataccount {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .textsignup {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .classlabel {
+    font-size: 16px;
+  }
+
+  .form-control {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .signupBtn,
+  .google {
+    font-size: 14px;
+    height: 44px;
+  }
+
+  .separator span {
+    font-size: 14px;
+  }
+
+  .login-redirect {
+    font-size: 13px;
+  }
+}
+
+/* Medium devices adjustments */
+@media (min-width: 577px) and (max-width: 768px) {
+  .classlabel,
+  .signupBtn,
+  .google {
+    width: 100%;
+    max-width: 480px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-group {
+    width: 100%;
+    max-width: 480px;
+  }
+}
+
+/* Landscape orientation for small devices */
+@media (max-height: 600px) and (orientation: landscape) {
+  .custom-bg {
+    min-height: auto;
+  }
+
+  .divlogo {
+    padding-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .creataccount {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .textsignup {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+}

@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ApiuserService {
-  private baseUrl = 'https://backed-medifit-production.up.railway.app';
+  private baseUrl = 'https://medifitbackend-production.up.railway.app';
 
   private endpoints = {
     register: '/users/register',

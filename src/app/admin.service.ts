@@ -30,7 +30,7 @@ export interface CompletedOrder {
   providedIn: 'root',
 })
 export class AdminService {
-  private apiUrl = 'https://backed-medifit-production.up.railway.app/admin';
+  private apiUrl = 'https://medifitbackend-production.up.railway.app/admin';
   
   private pendingOrdersSubject = new BehaviorSubject<PendingOrder[]>([]);
   private completedOrdersSubject = new BehaviorSubject<CompletedOrder[]>([]);
