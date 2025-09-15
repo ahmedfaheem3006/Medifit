@@ -977,3 +977,10 @@
     padding: 0 15px;
   }
 }
+
+
+@media (max-width: 480px) {
+  .product-page {
+    margin-top: 65px !important;
+  }
+}
